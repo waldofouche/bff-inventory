@@ -1,14 +1,31 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from "react";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
+import Home from "./components/pages/Home";
 
-function App() {
+import UserContext from "./context/UserContext";
+
+import "./style.css";
+
+export default function App() {
+  const [userData, setUserData] = useState({
+    token: undefined,
+    user: undefined,
+  });
+
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-      </header>
-    </div>
+    <>
+      <BrowserRouter>
+        <UserContext.Provider value={{ userData, setUserData }}>
+          <div className="container">
+            <Switch>
+              <Route exact path="/" component={Home} />
+
+            </Switch>
+          </div>
+        </UserContext.Provider>
+      </BrowserRouter>
+    </>
   );
 }
-
-export default App;
