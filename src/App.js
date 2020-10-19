@@ -7,6 +7,7 @@ import UserContext from "./context/UserContext";
 import Home from "./components/pages/Home";
 import Login from "./components/auth/Login"
 import Dasboard from "./components/dashboard/Dasboard"
+import Inventory from "./components/inventory/Inventory"
 
 // Import Styling
 import "./style.css";
@@ -28,6 +29,7 @@ export default function App() {
             <Switch>
               <Route exact path="/" component={Login} />
               <Route path="/home" component={Dasboard} />
+              <Route path="/inventory" component={Inventory} />
 
             </Switch>
           </div>
