@@ -12,15 +12,21 @@ import AssignmentIcon from '@material-ui/icons/Assignment';
 import StorageIcon from '@material-ui/icons/Storage';
 
 import { Link } from "react-router-dom";
+import { RootRef } from '@material-ui/core';
 
+const useStyles = {
+root: {
+  color: "#D6D7D8",
 
+},
+};
 
 export const mainListItems = (
   <div>
     
         <ListItem button component={Link} to="/Home">
         <ListItemIcon>
-            <DashboardIcon />
+            <DashboardIcon/>
         </ListItemIcon>
         <ListItemText primary="Dashboard" />
         
@@ -28,19 +34,19 @@ export const mainListItems = (
     
     <ListItem button>
       <ListItemIcon>
-        <ShoppingCartIcon />
+        <ShoppingCartIcon  />
       </ListItemIcon>
       <ListItemText primary="Orders" />
     </ListItem>
     <ListItem button component={Link} to="/inventory">
       <ListItemIcon>
-        <StorageIcon />
+        <StorageIcon/>
       </ListItemIcon>
       <ListItemText primary="Inventory" />
     </ListItem>
     <ListItem button>
       <ListItemIcon>
-        <BarChartIcon />
+        <BarChartIcon/>
       </ListItemIcon>
       <ListItemText primary="Reports" />
     </ListItem>
@@ -52,19 +58,19 @@ export const secondaryListItems = (
     <ListSubheader inset>Saved reports</ListSubheader>
     <ListItem button>
       <ListItemIcon>
-        <AssignmentIcon />
+        <AssignmentIcon/>
       </ListItemIcon>
       <ListItemText primary="Current month" />
     </ListItem>
     <ListItem button>
       <ListItemIcon>
-        <AssignmentIcon />
+        <AssignmentIcon/>
       </ListItemIcon>
       <ListItemText primary="Last quarter" />
     </ListItem>
     <ListItem button>
       <ListItemIcon>
-        <AssignmentIcon />
+        <AssignmentIcon/>
       </ListItemIcon>
       <ListItemText primary="Year-end sale" />
     </ListItem>
