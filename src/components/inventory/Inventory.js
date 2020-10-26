@@ -24,6 +24,17 @@ import Deposits from '../dashboard/Deposits';
 import Orders from '../dashboard/Orders';
 import DataTable from "../inventory/DataTable";
 
+
+//Components sharing with other pages
+
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import Button from '@material-ui/core/Button';
+import ClickAwayListener from '@material-ui/core/ClickAwayListener';
+import Grow from '@material-ui/core/Grow';
+import Popper from '@material-ui/core/Popper';
+import MenuItem from '@material-ui/core/MenuItem';
+import MenuList from '@material-ui/core/MenuList';
+
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -123,6 +134,8 @@ const useStyles = makeStyles((theme) => ({
 export default function Dashboard() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
+  const [profileOpen, setProfileOpen] = React.useState(false);
+  const anchorRef = React.useRef(null);
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -130,6 +143,34 @@ export default function Dashboard() {
     setOpen(false);
   };
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+  const handleProfileToggle = () => {
+    setProfileOpen((prevOpen) => !prevOpen);
+  };
+
+  const handleProfileClose = (event) => {
+    if (anchorRef.current && anchorRef.current.contains(event.target)) {
+      return;
+    }
+
+    setProfileOpen(false);
+  };
+
+  function handleProfileListKeyDown(event) {
+    if (event.key === 'Tab') {
+      event.preventDefault();
+      setProfileOpen(false);
+    }
+  }
+
+  // return focus to the button when we transitioned from !open -> open
+  const prevOpen = React.useRef(profileOpen);
+  React.useEffect(() => {
+    if (prevOpen.current === true && profileOpen === false) {
+      anchorRef.current.focus();
+    }
+
+    prevOpen.current = profileOpen;
+  }, [profileOpen]);
 
   return (
     <div className={classes.root}>
@@ -137,6 +178,7 @@ export default function Dashboard() {
       <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
         <Toolbar className={classes.toolbar}>
           <IconButton
+
             edge="start"
             color="inherit"
             aria-label="open drawer"
@@ -148,11 +190,30 @@ export default function Dashboard() {
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
             BFF Dashboard
           </Typography>
-          <IconButton color="inherit">
-            <Badge badgeContent={4} color="secondary">
-              <NotificationsIcon />
-            </Badge>
-          </IconButton>
+          <IconButton color="inherit" 
+          ref= {anchorRef}
+          aria-controls={profileOpen ? 'menu-list-grow' : undefined} 
+          aria-haspopup="true"
+          onClick={handleProfileToggle}>
+              <AccountCircleIcon/>
+          <Popper open={profileOpen} anchorEl={anchorRef.current} role={undefined} transition disablePortal>
+          {({ TransitionProps, placement }) => (
+            <Grow
+              {...TransitionProps}
+              style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
+            >
+              <Paper>
+                <ClickAwayListener onClickAway={handleProfileClose}>
+                  <MenuList autoFocusItem={profileOpen} id="menu-list-grow" onKeyDown={handleProfileListKeyDown}>
+                    <MenuItem onClick={handleProfileClose}>My account</MenuItem>
+                    <MenuItem onClick={handleProfileClose}>Logout</MenuItem>
+                  </MenuList>
+                </ClickAwayListener>
+              </Paper>
+            </Grow>
+          )}
+        </Popper>
+        </IconButton>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -162,7 +223,7 @@ export default function Dashboard() {
         }}
         open={open}
       >
-        <div className={classes.toolbarIcon}>
+        <div className={clsx(classes.toolbarIcon)}>
           <IconButton onClick={handleDrawerClose}>
             <ChevronLeftIcon />
           </IconButton>
@@ -175,16 +236,17 @@ export default function Dashboard() {
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
-          <Grid container spacing={3}>
+          {/* <Grid container spacing={3}> */}
+          <DataTable/>
              {/* Add Content here */}
 
              {/* Data Table */}
-             <Grid  >
+             {/* <Grid  >
               <Paper className={classes.paper}>
                 <DataTable />
-              </Paper>
-            </Grid>
-          </Grid>
+              </Paper> */}
+            {/* </Grid> */}
+          {/* </Grid> */}
           <Box pt={4}>
            
           </Box>
