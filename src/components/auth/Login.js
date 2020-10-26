@@ -1,5 +1,10 @@
-import React from 'react';
+import React, {useState, useContext} from 'react';
 import { Link } from 'react-router-dom';
+import Axios from "axios";
+import UserContext from "../context/UserContext"
+import { useHistory } from "react-router-dom";
+
+
 
 // Material UI Imports
 import Avatar from '@material-ui/core/Avatar';
@@ -33,9 +38,7 @@ function Copyright() {
 }
 
 // Sign in user when clicked
-function Submit() {
-    
-}
+
 
 // Styling for the page
 const useStyles = makeStyles((theme) => ({
@@ -60,7 +63,28 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignIn() {
   const classes = useStyles();
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
+  const [error, setError] = useState();
 
+  const { setUserData } = useContext(UserContext);
+  const history = useHistory();
+
+  const submit = async (e) => {
+    e.preventDefault();
+    
+      const loginUser = { email, password };
+      const loginRes = await Axios.post(
+        "http://localhost:5000/users/login",
+        loginUser
+      );
+      setUserData({
+        token: loginRes.data.token,
+        user: loginRes.data.user,
+      });
+      localStorage.setItem("auth-token", loginRes.data.token);
+      history.push("/");
+  };
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -82,6 +106,7 @@ export default function SignIn() {
             name="email"
             autoComplete="email"
             autoFocus
+            onChange={(e) => setEmail(e.target.value)}
           />
           <TextField
             variant="outlined"
@@ -93,6 +118,7 @@ export default function SignIn() {
             type="password"
             id="password"
             autoComplete="current-password"
+            onChange={(e) => setPassword(e.target.value)}
           />
           <FormControlLabel
             control={<Checkbox value="remember" color="primary" />}
@@ -105,6 +131,7 @@ export default function SignIn() {
             variant="contained"
             color="primary"
             className={classes.submit}
+            onClick = {submit}
             
           >
             Sign In
