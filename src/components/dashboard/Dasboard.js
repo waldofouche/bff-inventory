@@ -17,8 +17,15 @@ import Paper from '@material-ui/core/Paper';
 import Link from '@material-ui/core/Link';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import NotificationsIcon from '@material-ui/icons/Notifications';
+import LockOpenIcon from '@material-ui/icons/LockOpen';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import { mainListItems, secondaryListItems } from './listItems';
+import Button from '@material-ui/core/Button';
+import ClickAwayListener from '@material-ui/core/ClickAwayListener';
+import Grow from '@material-ui/core/Grow';
+import Popper from '@material-ui/core/Popper';
+import MenuItem from '@material-ui/core/MenuItem';
+import MenuList from '@material-ui/core/MenuList';
 import Chart from './Chart';
 import Deposits from './Deposits';
 import Orders from './Orders';
@@ -117,11 +124,17 @@ const useStyles = makeStyles((theme) => ({
   fixedHeight: {
     height: 240,
   },
+  mainList: {
+    // backgroundColor: "#2C363B",
+    // color: "#D6D7D8",
+  },
 }));
 
 export default function Dashboard() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
+  const [profileOpen, setProfileOpen] = React.useState(false);
+  const anchorRef = React.useRef(null);
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -129,6 +142,34 @@ export default function Dashboard() {
     setOpen(false);
   };
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+  const handleProfileToggle = () => {
+    setProfileOpen((prevOpen) => !prevOpen);
+  };
+
+  const handleProfileClose = (event) => {
+    if (anchorRef.current && anchorRef.current.contains(event.target)) {
+      return;
+    }
+
+    setProfileOpen(false);
+  };
+
+  function handleProfileListKeyDown(event) {
+    if (event.key === 'Tab') {
+      event.preventDefault();
+      setProfileOpen(false);
+    }
+  }
+
+  // return focus to the button when we transitioned from !open -> open
+  const prevOpen = React.useRef(profileOpen);
+  React.useEffect(() => {
+    if (prevOpen.current === true && profileOpen === false) {
+      anchorRef.current.focus();
+    }
+
+    prevOpen.current = profileOpen;
+  }, [profileOpen]);
 
   return (
     <div className={classes.root}>
@@ -136,6 +177,7 @@ export default function Dashboard() {
       <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
         <Toolbar className={classes.toolbar}>
           <IconButton
+
             edge="start"
             color="inherit"
             aria-label="open drawer"
@@ -147,11 +189,30 @@ export default function Dashboard() {
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
             BFF Dashboard
           </Typography>
-          <IconButton color="inherit">
-            <Badge badgeContent={4} color="secondary">
-              <NotificationsIcon />
-            </Badge>
-          </IconButton>
+          <IconButton color="inherit" 
+          ref= {anchorRef}
+          aria-controls={profileOpen ? 'menu-list-grow' : undefined} 
+          aria-haspopup="true"
+          onClick={handleProfileToggle}>
+              <AccountCircleIcon/>
+          <Popper open={profileOpen} anchorEl={anchorRef.current} role={undefined} transition disablePortal>
+          {({ TransitionProps, placement }) => (
+            <Grow
+              {...TransitionProps}
+              style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
+            >
+              <Paper>
+                <ClickAwayListener onClickAway={handleProfileClose}>
+                  <MenuList autoFocusItem={profileOpen} id="menu-list-grow" onKeyDown={handleProfileListKeyDown}>
+                    <MenuItem onClick={handleProfileClose}>My account</MenuItem>
+                    <MenuItem onClick={handleProfileClose}>Logout</MenuItem>
+                  </MenuList>
+                </ClickAwayListener>
+              </Paper>
+            </Grow>
+          )}
+        </Popper>
+        </IconButton>
         </Toolbar>
       </AppBar>
       <Drawer
