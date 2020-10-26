@@ -14,21 +14,23 @@ import Badge from '@material-ui/core/Badge';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import Link from '@material-ui/core/Link';
+// import Link from '@material-ui/core/Link';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import { mainListItems, secondaryListItems } from './listItems';
+import { mainListItems, secondaryListItems } from '../dashboard/listItems';
 import Button from '@material-ui/core/Button';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Grow from '@material-ui/core/Grow';
 import Popper from '@material-ui/core/Popper';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
-import Chart from './Chart';
-import Deposits from './Deposits';
-import Orders from './Orders';
+import Chart from '../dashboard/Chart';
+import Deposits from '../dashboard/Deposits';
+// import Orders from './Orders';
+import { Link } from "react-router-dom";
+
 
 function Copyright() {
   return (
@@ -130,7 +132,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Dashboard() {
+export default function Orders() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
   const [profileOpen, setProfileOpen] = React.useState(false);
@@ -153,6 +155,7 @@ export default function Dashboard() {
 
     setProfileOpen(false);
   };
+
 
   function handleProfileListKeyDown(event) {
     if (event.key === 'Tab') {
@@ -205,7 +208,7 @@ export default function Dashboard() {
                 <ClickAwayListener onClickAway={handleProfileClose}>
                   <MenuList autoFocusItem={profileOpen} id="menu-list-grow" onKeyDown={handleProfileListKeyDown}>
                     <MenuItem onClick={handleProfileClose}>My account</MenuItem>
-                    <MenuItem onClick={handleProfileClose}>Logout</MenuItem>
+                    <MenuItem onClick={handleProfileClose} component = {Link} to ="/">Logout</MenuItem>
                   </MenuList>
                 </ClickAwayListener>
               </Paper>
@@ -251,7 +254,7 @@ export default function Dashboard() {
             {/* Recent Orders */}
             <Grid item xs={12}>
               <Paper className={classes.paper}>
-                <Orders />
+                Order page
               </Paper>
             </Grid>
           </Grid>

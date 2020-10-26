@@ -9,9 +9,10 @@ import UserContext from "./components/context/UserContext";
 // Import Pages
 import Home from "./components/pages/Home";
 import Login from "./components/auth/Login"
-import Dasboard from "./components/dashboard/Dasboard"
+import Dashboard from "./components/dashboard/Dashboard"
 import Inventory from "./components/inventory/Inventory"
 import SignUp from "./components/auth/SignUp"
+import Orders from "./components/orders/Orders"
 
 // Import Styling
 import "./style.css";
@@ -84,10 +85,10 @@ export default function App() {
           <div className="container">
             <Switch>
               <Route exact path="/" component={Login} />
-              <Route path="/home" component={Dasboard} />
+              <Route path="/home" component={Dashboard} />
               <Route path="/inventory" component={Inventory} />
               <Route path ="/register" component = {SignUp} />
-
+              <Route path = "/orders" component = {Orders} />
             </Switch>
           </div>
         </UserContext.Provider>

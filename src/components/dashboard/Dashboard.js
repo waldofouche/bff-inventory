@@ -14,26 +14,23 @@ import Badge from '@material-ui/core/Badge';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import { Link } from "react-router-dom";
+// import Link from '@material-ui/core/Link';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import NotificationsIcon from '@material-ui/icons/Notifications';
-import { mainListItems, secondaryListItems } from '../dashboard/listItems';
-import Chart from '../dashboard/Chart';
-import Deposits from '../dashboard/Deposits';
-import Orders from '../orders/Orders';
-import DataTable from "../inventory/DataTable";
-
-
-//Components sharing with other pages
-
+import LockOpenIcon from '@material-ui/icons/LockOpen';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import { mainListItems, secondaryListItems } from '../dashboard/listItems';
 import Button from '@material-ui/core/Button';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Grow from '@material-ui/core/Grow';
 import Popper from '@material-ui/core/Popper';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
+import Chart from '../dashboard/Chart';
+import Deposits from '../dashboard/Deposits';
+// import Orders from './Orders';
+import { Link } from "react-router-dom";
+
 
 function Copyright() {
   return (
@@ -129,6 +126,10 @@ const useStyles = makeStyles((theme) => ({
   fixedHeight: {
     height: 240,
   },
+  mainList: {
+    // backgroundColor: "#2C363B",
+    // color: "#D6D7D8",
+  },
 }));
 
 export default function Dashboard() {
@@ -154,6 +155,7 @@ export default function Dashboard() {
 
     setProfileOpen(false);
   };
+
 
   function handleProfileListKeyDown(event) {
     if (event.key === 'Tab') {
@@ -223,7 +225,7 @@ export default function Dashboard() {
         }}
         open={open}
       >
-        <div className={clsx(classes.toolbarIcon)}>
+        <div className={classes.toolbarIcon}>
           <IconButton onClick={handleDrawerClose}>
             <ChevronLeftIcon />
           </IconButton>
@@ -236,19 +238,30 @@ export default function Dashboard() {
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
-          {/* <Grid container spacing={3}> */}
-          <DataTable/>
-             {/* Add Content here */}
-
-             {/* Data Table */}
-             {/* <Grid  >
+          <Grid container spacing={3}>
+            {/* Chart */}
+            <Grid item xs={12} md={8} lg={9}>
+              <Paper className={fixedHeightPaper}>
+                <Chart />
+              </Paper>
+            </Grid>
+            {/* Recent Deposits */}
+            <Grid item xs={12} md={4} lg={3}>
+              <Paper className={fixedHeightPaper}>
+                <Deposits />
+              </Paper>
+            </Grid>
+            {/* Recent Orders */}
+            <Grid item xs={12}>
               <Paper className={classes.paper}>
-                <DataTable />
-              </Paper> */}
-            {/* </Grid> */}
-          {/* </Grid> */}
+                {/* <Orders />
+                 */}
+                 HI
+              </Paper>
+            </Grid>
+          </Grid>
           <Box pt={4}>
-           
+            <Copyright />
           </Box>
         </Container>
       </main>
