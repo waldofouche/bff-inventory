@@ -29,14 +29,7 @@ export default function App() {
   const register = () => history.push("/register");
   const login = () => history.push("/login");
 
-  const logout = () => {
-    setUserData({
-      token: undefined,
-      user: undefined,
-    });
-    localStorage.setItem("auth-token", "");
-  };
-
+  
 
   /* Checks if a user has previously logged in on the device
      and if the credentials are valid 
@@ -49,8 +42,7 @@ export default function App() {
       
       // If token does not exist, create an empty one
       if (token === null) {
-        localStorage.setItem("auth-token", "");
-        token = "";
+        //
       }
 
       // Verify validity of token
@@ -74,8 +66,6 @@ export default function App() {
 
     checkLoggedIn();
   }, []);
-
-
 
 
   return (

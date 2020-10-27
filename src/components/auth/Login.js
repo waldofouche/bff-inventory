@@ -1,4 +1,4 @@
-import React, {useState, useContext} from 'react';
+import React, {useState, useContext, useEffect} from 'react';
 import { Link } from 'react-router-dom';
 import Axios from "axios";
 import UserContext from "../context/UserContext"
@@ -37,7 +37,7 @@ function Copyright() {
   );
 }
 
-// Sign in user when clicked
+
 
 
 // Styling for the page
@@ -62,6 +62,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SignIn() {
+  
   const classes = useStyles();
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
@@ -70,6 +71,46 @@ export default function SignIn() {
   const { setUserData } = useContext(UserContext);
   const history = useHistory();
 
+  /* Checks if a user has previously logged in on the device
+     and if the credentials are valid 
+     -> Runs at start of accessing the website 
+   */
+
+  useEffect(() => {
+    // Check if a user login token exists on the current device
+    const checkLoggedIn = async () => {
+      let token = localStorage.getItem("auth-token");
+      
+      // If token does not exist, create an empty one
+      if (token === null) {
+        //
+      }
+
+      // Verify validity of token
+      const tokenRes = await Axios.post(
+        "http://localhost:5000/users/tokenIsValid",
+        null,
+        { headers: { "x-auth-token": token } }
+      );
+      
+      // Sets the token to the current verified user
+      if (tokenRes.data) {
+        const userRes = await Axios.get("http://localhost:5000/users/", {
+          headers: { "x-auth-token": token },
+        });
+        setUserData({
+          token,
+          user: userRes.data,
+        });
+        history.push("/home");
+        
+      }
+    };
+
+    checkLoggedIn();
+  }, []);
+
+  // Sign in user when clicked
   const submit = async (e) => {
     e.preventDefault();
     
@@ -83,8 +124,9 @@ export default function SignIn() {
         user: loginRes.data.user,
       });
       localStorage.setItem("auth-token", loginRes.data.token);
-      history.push("/");
+      history.push("/home");
   };
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
