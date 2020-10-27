@@ -19,7 +19,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import { mainListItems, secondaryListItems } from '../dashboard/listItems';
+import { mainListItems} from '../dashboard/listItems';
 import Button from '@material-ui/core/Button';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Grow from '@material-ui/core/Grow';
@@ -28,6 +28,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
 import Chart from '../dashboard/Chart';
 import Deposits from '../dashboard/Deposits';
+import DisplayOutOfStock from '../dashboard/DisplayOutOfStock';
+import DisplayLowStock from '../dashboard/DisplayLowStock';
 // import Orders from './Orders';
 import { Link } from "react-router-dom";
 import UserContext from "../context/UserContext";
@@ -36,18 +38,6 @@ import Axios from "axios";
 
 
 
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
 
 const drawerWidth = 240;
 
@@ -143,17 +133,24 @@ export default function Dashboard() {
   const [open, setOpen] = React.useState(true);
   const [profileOpen, setProfileOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
+
+  //Open the side menu
   const handleDrawerOpen = () => {
     setOpen(true);
   };
+
+  //Open the side menu
   const handleDrawerClose = () => {
     setOpen(false);
   };
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+
+  //When the profile icon is clicked change the state from its previous state
   const handleProfileToggle = () => {
     setProfileOpen((prevOpen) => !prevOpen);
   };
 
+  //Close the list of menu items
   const handleProfileClose = (event) => {
     if (anchorRef.current && anchorRef.current.contains(event.target)) {
       return;
@@ -162,7 +159,7 @@ export default function Dashboard() {
     setProfileOpen(false);
   };
 
-
+  //Close the list of menu items for the profile face if the tab key is pressed
   function handleProfileListKeyDown(event) {
     if (event.key === 'Tab') {
       event.preventDefault();
@@ -170,6 +167,7 @@ export default function Dashboard() {
     }
   }
 
+  //Remove token when log out
   const logout = () => {
     setUserData({
       token: undefined,
@@ -286,40 +284,51 @@ export default function Dashboard() {
             <ChevronLeftIcon />
           </IconButton>
         </div>
+
         <Divider />
         <List>{mainListItems}</List>
-        <Divider />
-        <List>{secondaryListItems}</List>
       </Drawer>
-      <main className={classes.content}>
+      <main className={classes.content} style ={{alignItems:'right'}} >
         <div className={classes.appBarSpacer} />
-        <Container maxWidth="lg" className={classes.container}>
+        <Container maxWidth="lg" className={classes.container} >
           <Grid container spacing={3}>
-            {/* Chart */}
-            <Grid item xs={12} md={8} lg={9}>
+          <Grid item xs = {12} md={4} lg={4}>
               <Paper className={fixedHeightPaper}>
-                <Chart />
+                {/* <Out of stock items />
+                 */}
+
+                 <DisplayOutOfStock/>
+                </Paper>
+           
+              </Grid>
+          <Grid item xs = {12} md={4} lg={4} >
+              <Paper className={fixedHeightPaper}>
+                {/* <Orders />
+                 */}
+                <DisplayLowStock/>
               </Paper>
-            </Grid>
-            {/* Recent Deposits */}
-            <Grid item xs={12} md={4} lg={3}>
+           
+              </Grid>
+              <Grid item xs={12} md={4} lg={4}>
               <Paper className={fixedHeightPaper}>
                 <Deposits />
               </Paper>
             </Grid>
-            {/* Recent Orders */}
-            <Grid item xs={12}>
-              <Paper className={classes.paper}>
-                {/* <Orders />
-                 */}
-                 HI
+
+            {/* Chart */}
+            <Grid item xs={12} md={12} lg={12}>
+              <Paper className={fixedHeightPaper} style = {{height: 500}}>
+                <Chart />
               </Paper>
             </Grid>
+            {/* Recent Deposits */}
+
+            {/* Recent Orders */}
+  
           </Grid>
-          <Box pt={4}>
-            <Copyright />
-          </Box>
+          
         </Container>
+        
       </main>
     </div>
   );

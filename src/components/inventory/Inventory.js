@@ -18,7 +18,7 @@ import { Link } from "react-router-dom";
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import NotificationsIcon from '@material-ui/icons/Notifications';
-import { mainListItems, secondaryListItems } from '../dashboard/listItems';
+import { mainListItems} from '../dashboard/listItems';
 import Chart from '../dashboard/Chart';
 import Deposits from '../dashboard/Deposits';
 import Orders from '../orders/Orders';
@@ -35,18 +35,6 @@ import Popper from '@material-ui/core/Popper';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
 
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
 
 const drawerWidth = 240;
 
@@ -230,8 +218,6 @@ export default function Dashboard() {
         </div>
         <Divider />
         <List>{mainListItems}</List>
-        <Divider />
-        <List>{secondaryListItems}</List>
       </Drawer>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
@@ -247,9 +233,6 @@ export default function Dashboard() {
               </Paper> */}
             {/* </Grid> */}
           {/* </Grid> */}
-          <Box pt={4}>
-           
-          </Box>
         </Container>
       </main>
     </div>

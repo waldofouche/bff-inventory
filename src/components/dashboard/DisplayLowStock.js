@@ -3,6 +3,8 @@ import Link from '@material-ui/core/Link';
 import { makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
 import Title from './Title';
+import {useHistory} from 'react-router-dom'
+import { Link as ReactDomLink} from "react-router-dom";
 
 function preventDefault(event) {
   event.preventDefault();
@@ -14,37 +16,21 @@ const useStyles = makeStyles({
   },
 });
 
-const d = new Date();
-const month = new Array();
-month[0] = "January";
-month[1] = "February";
-month[2] = "March";
-month[3] = "April";
-month[4] = "May";
-month[5] = "June";
-month[6] = "July";
-month[7] = "August";
-month[8] = "September";
-month[9] = "October";
-month[10] = "November";
-month[11] = "December";
 
-const n = month[d.getMonth()];
-
-export default function Deposits() {
+export default function DisplayLowStockItems() {
   const classes = useStyles();
   return (
     <React.Fragment>
-      <Title>Current Month Sales</Title>
+      <Title alignItem = "center">Low Stock </Title>
       <Typography component="p" variant="h4">
-        $9999
+        2
       </Typography>
       <Typography color="textSecondary" className={classes.depositContext}>
-        {n} {new Date().getFullYear()}
+        Unique Items
       </Typography>
       <div>
-        <Link color="primary" href="#" onClick={preventDefault}>
-          View balance
+        <Link color="primary" href="/inventory" component={ReactDomLink} to ="/inventory">
+          Go to inventory
         </Link>
       </div>
     </React.Fragment>

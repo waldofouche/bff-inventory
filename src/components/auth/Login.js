@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import Axios from "axios";
 import UserContext from "../context/UserContext"
 import { useHistory } from "react-router-dom";
+import {Redirect} from "react-router-dom";
 
 
 
@@ -20,21 +21,14 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
 
 
 
 
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Best Foot Fordward Clothing
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
+function Alert (props) {
+  return <MuiAlert elevation = {6} variant = "filled" {...props} />
 }
 
 
@@ -67,9 +61,17 @@ export default function SignIn() {
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
   const [error, setError] = useState();
+  const [open, setOpen] =  React.useState(false);
 
   const { setUserData } = useContext(UserContext);
   const history = useHistory();
+
+  const handleSnackClose = (event, reason) => {
+    if (reason === "clickaway"){
+      return;
+    }
+    setOpen(false);
+  }
 
   /* Checks if a user has previously logged in on the device
      and if the credentials are valid 
@@ -113,7 +115,7 @@ export default function SignIn() {
   // Sign in user when clicked
   const submit = async (e) => {
     e.preventDefault();
-    
+    try{
       const loginUser = { email, password };
       const loginRes = await Axios.post(
         "http://localhost:5000/users/login",
@@ -125,6 +127,12 @@ export default function SignIn() {
       });
       localStorage.setItem("auth-token", loginRes.data.token);
       history.push("/home");
+    }
+    catch (error){
+      setOpen(true)
+    }
+     
+
   };
 
   return (
@@ -179,6 +187,11 @@ export default function SignIn() {
             Sign In
           </Button>
           </Link>
+          <Snackbar open = {open} autoHideDuration = {30000} onClose = {handleSnackClose}>
+            <Alert onClose = {handleSnackClose} severity = "error">
+              Incorrect email or password
+            </Alert>
+          </Snackbar>
           
           <Grid container>
             <Grid item xs>
@@ -194,9 +207,6 @@ export default function SignIn() {
           </Grid>
         </form>
       </div>
-      <Box mt={8}>
-        <Copyright />
-      </Box>
     </Container>
   );
 }

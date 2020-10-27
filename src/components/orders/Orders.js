@@ -19,7 +19,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import LockOpenIcon from '@material-ui/icons/LockOpen';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import { mainListItems, secondaryListItems } from '../dashboard/listItems';
+import { mainListItems } from '../dashboard/listItems';
 import Button from '@material-ui/core/Button';
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Grow from '@material-ui/core/Grow';
@@ -230,10 +230,10 @@ export default function Orders() {
             <ChevronLeftIcon />
           </IconButton>
         </div>
+        <img src ="bff-logo.png" alt = "BFF logo"/>
+
         <Divider />
         <List>{mainListItems}</List>
-        <Divider />
-        <List>{secondaryListItems}</List>
       </Drawer>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />

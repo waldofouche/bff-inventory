@@ -149,8 +149,7 @@ class Inventory extends Component {
             <TableHead>
               <TableRow>
                 <TableCell>Product Name</TableCell>
-                <TableCell align="right">SKU</TableCell>
-                <TableCell align="right">Supplier</TableCell>
+                <TableCell align="left">SKU</TableCell>
                 <TableCell align="right">Price</TableCell>
                 <TableCell align="right">Sale Price</TableCell>
                 <TableCell align="right">Stock on Hand</TableCell>
@@ -164,8 +163,7 @@ class Inventory extends Component {
                   <TableCell component="th" scope="row">
                     {product.invProductName}
                   </TableCell>
-                  <TableCell align="right">{product.slug}</TableCell>
-                  <TableCell align="right">{product.invSupplier}</TableCell>
+                  <TableCell align="left">{product.slug}</TableCell>
                   <TableCell align="right">{product.invPrice}</TableCell>
                   <TableCell align="right">{product.invSalePrice}</TableCell>
                   <TableCell align="right">{product.invCurentStock}</TableCell>
