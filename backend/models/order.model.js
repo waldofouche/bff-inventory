@@ -5,15 +5,16 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const orderSchema = new Schema({
+    orderID: {type: String, required: true},
     orderProductName: {type: String, required: true},
     orderQuantity: {type: String, required: true, unique: true, trim: true, minlength: 3 },
     productID: {type: String,required: true },
+    productVariationID: {type: String, required: true},
     orderPrice: {type: Number, required: true},
     productVariationID: {type: Number, required: true},
-    invOnOrder: {type: Number, required: true},
-    invRoyalty: {type: Number, required: true},
-    invWooID: {type: Number, required: true},
-    invSalePrice: {type: Number, required: true},
+    orderStatus: {type: Number, required: true},
+    productSize: {type: Number, required: true},
+    orderDateCreated: {type: Number, required: true},
 }, {
   timestamps: true,
 });

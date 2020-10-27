@@ -26,12 +26,15 @@ const productsRouter = require('./routes/products');
 const usersRouter = require('./routes/users');
 const saleReportRouter = require('./routes/saleReport');
 const woocommerceRouter = require('./routes/wooCommerce');
+const ordersRouter = require('./routes/orders');
 
 // Add app.use corresponding to routes
 app.use('/products', productsRouter);
 app.use('/users', usersRouter);
 app.use('/saleReports', saleReportRouter);
 app.use('/wooCommerce', woocommerceRouter);
+app.use('/orders', ordersRouter)
+
 
 app.listen(port, () => {
     console.log(`Server is running on port: ${port}`);

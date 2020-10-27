@@ -39,6 +39,25 @@ router.route("/products").get((req, res) => {
         });
 });
 
+router.route("/orders").get((req, res) => {
+
+  api.get("orders", {
+    per_page: 20
+  })
+  .then((response) => {
+    res.send(response.data);
+  })
+  .catch((error) => {
+    console.log("Response Status: ", error.response.status)
+    console.log("Response Headers: ", error.response.headers)
+    console.log("Response Data: ", error.response.data)
+
+  })
+  .finally(() => {
+
+  });
+})
+
 
 
 module.exports = router;
