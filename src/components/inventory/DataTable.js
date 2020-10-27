@@ -16,16 +16,11 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 
-//modal Imports
-import Modal from '@material-ui/core/Modal';
-import Backdrop from '@material-ui/core/Backdrop';
-import Fade from '@material-ui/core/Fade';
-
 function refreshPage() {
   window.location.reload(true);
 }
 
-const useStyles = (theme) => ({
+const useStyles = makeStyles({
   root: {
     flexGrow: 1,
     marginBottom: 20,
@@ -33,22 +28,9 @@ const useStyles = (theme) => ({
   table: {
     minWidth: 650,
   },
-  modal: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  paper: {
-    backgroundColor: theme.palette.background.paper,
-    border: '2px solid #000',
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
-  },
 });
 
-
-
-/* const Product = (props) => (
+const Product = (props) => (
   <tr>
     <td>{props.wooProduct.name}</td>
     <td>{props.wooProduct.sku}</td>
@@ -75,16 +57,14 @@ const useStyles = (theme) => ({
       </a>
     </td>
   </tr>
-); */
+);
 
 class Inventory extends Component {
   constructor(props) {
     super(props);
 
-    this.handleModalOpen = this.handleModalOpen.bind(this);
-    this.handleModalClose = this.handleModalClose.bind(this);
     this.deleteProduct = this.deleteProduct.bind(this);
-    this.state = { products: [], tabValue: 0, setValue: 0, modalOpen: false};
+    this.state = { products: [], tabValue: 0, setValue: 0 };
   }
 
   componentDidMount() {
@@ -95,8 +75,6 @@ class Inventory extends Component {
       .then((products) => {
         Axios.get("http://localhost:5000/wooCommerce/products")
           .then((response) => {
-            console.log("woo", response.data);
-            console.log("ourinv", products);
             let mergedProducts = products.map((product) => {
               return {
                 ...product,
@@ -105,7 +83,7 @@ class Inventory extends Component {
                 }),
               };
             });
-            console.log("merged", mergedProducts);
+            console.log("merged", mergedProducts)
             this.setState({ products: mergedProducts });
           })
           .catch((error) => {
@@ -127,16 +105,7 @@ class Inventory extends Component {
     });
   }
 
-  handleModalOpen = () => {
-    this.setState({ modalOpen: true });
-  };
-
-  handleModalClose = () => {
-    this.setState({ modalOpen: false });
-  };
-
-
-  /* productsList() {
+  productsList() {
     return this.state.products.map((currentproduct, index) => {
       return (
         <Product
@@ -147,7 +116,7 @@ class Inventory extends Component {
         />
       );
     });
-  } */
+  }
 
   handleTabChange = (event, newValue) => {
     this.setState({ tabValue: newValue });
@@ -191,18 +160,14 @@ class Inventory extends Component {
             </TableHead>
             <TableBody>
               {this.state.products.map((product) => (
-                <TableRow
-                  key={product.id}
-                  onClick={this.handleModalOpen}
-                  hover
-                >
+                <TableRow key={product.id}>
                   <TableCell component="th" scope="row">
                     {product.invProductName}
                   </TableCell>
-                  <TableCell align="right">{product.invSKU}</TableCell>
+                  <TableCell align="right">{product.slug}</TableCell>
                   <TableCell align="right">{product.invSupplier}</TableCell>
                   <TableCell align="right">{product.invPrice}</TableCell>
-                  <TableCell align="right">{product.invSalePrice || "-"}</TableCell>
+                  <TableCell align="right">{product.invSalePrice}</TableCell>
                   <TableCell align="right">{product.invCurentStock}</TableCell>
                   <TableCell align="right">{product.invOnOrder}</TableCell>
                   <TableCell align="right">{product.invRoyalty}</TableCell>
@@ -211,25 +176,6 @@ class Inventory extends Component {
             </TableBody>
           </Table>
         </TableContainer>
-        <Modal
-        aria-labelledby="transition-modal-title"
-        aria-describedby="transition-modal-description"
-        className={classes.modal}
-        open={this.state.modalOpen}
-        onClose={this.handleModalClose}
-        closeAfterTransition
-        BackdropComponent={Backdrop}
-        BackdropProps={{
-          timeout: 500,
-        }}
-      >
-        <Fade in={this.state.modalOpen}>
-          <div className={classes.paper}>
-            <h2 id="transition-modal-title">Transition modal</h2>
-            <p id="transition-modal-description">react-transition-group animates me.</p>
-          </div>
-        </Fade>
-      </Modal>
       </>
          
     );
