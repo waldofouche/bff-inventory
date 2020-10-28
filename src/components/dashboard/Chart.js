@@ -49,20 +49,31 @@ class Chart extends Component {
   render() {
     let forGraphResults = [];
     this.state.orders.forEach((order) => {
-      forGraphResults.push(
-        createData(
-          order.date.split("-", 2)[1] + "/" + order.date.split("-", 2)[0],
-          order.salePrice
-        )
-      );
+      forGraphResults.push([
+        order.date.split("-", 2)[1] + "/" + order.date.split("-", 2)[0],
+        order.salePrice,
+      ]);
     });
+    console.log(forGraphResults);
 
-    let sumOfEachMonth = forGraphResults.reduce(function (a, b) {
-      return a + b;
-    });
+    let sumOfEachMonth = [];
 
+    // for(let i = 0; i<)
+
+    // for (let i = 0; i < forGraphResults.length; i++) {
+    //   for (let j = 0; j < forGraphResults[i].length - 1; j++) {
+    //     if (forGraphResults[i][j] === forGraphResults[i + 1][j + 1]) {
+    //       sumOfEachMonth.push(
+    //         createData(
+    //           forGraphResults[i],
+    //           forGraphResults[i][j + 1] + forGraphResults[i + 1][j + 1]
+    //         )
+    //       );
+    //     }
+    //   }
+    // }
     //have 0,0 axis
-    forGraphResults.push(createData(0, 0));
+    sumOfEachMonth.push(createData(0, 0));
     // let updatedOrders = this.state.orderList.filter((order) =>
     // order.date.watever > lowerbound && order.date.whatever < upperbound)
 
@@ -72,7 +83,7 @@ class Chart extends Component {
 
         <ResponsiveContainer>
           <LineChart
-            data={forGraphResults.reverse()}
+            data={sumOfEachMonth.reverse()}
             margin={{
               top: 16,
               right: 16,
