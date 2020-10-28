@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Axios from "axios";
-import { withStyles } from "@material-ui/core/styles";
+import {  withStyles } from "@material-ui/core/styles";
 
 import Paper from "@material-ui/core/Paper";
 import Tabs from "@material-ui/core/Tabs";
@@ -84,7 +84,6 @@ class Inventory extends Component {
                 }),
               };
             });
-            console.log("merged", mergedProducts);
             this.setState({ products: mergedProducts });
           })
           .catch((error) => {
@@ -95,16 +94,6 @@ class Inventory extends Component {
         console.log(error);
       });
   }
-
-  /* deleteProduct(id) {
-    Axios.delete("http://localhost:5000/products/" + id).then((res) => {
-      console.log(res.data);
-    });
-
-    this.setState({
-      products: this.state.products.filter((el) => el.id !== id),
-    });
-  } */
 
   handleModalOpen = (product) => {
     this.setState({ modalOpen: true, currentProduct: product });

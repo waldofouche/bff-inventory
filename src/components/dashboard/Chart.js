@@ -93,6 +93,7 @@ class Chart extends Component {
     // let updatedOrders = this.state.orderList.filter((order) =>
     // order.date.watever > lowerbound && order.date.whatever < upperbound)
 
+    console.log("loading", this.state.loading)
     return (
       <React.Fragment>
         <Title>{new Date().getFullYear()}</Title>
@@ -122,13 +123,13 @@ class Chart extends Component {
             <Line type="monotone" dataKey="amount" dot={false} />
           </LineChart>
         </ResponsiveContainer>
-        <CircularProgress
+        {this.state.loading ? (<CircularProgress
           style={{
             display: "flex",
             justifyContent: "center",
             paddingTop: "20px",
           }}
-        />
+        />) : ( <div />)}
       </React.Fragment>
     );
   }
