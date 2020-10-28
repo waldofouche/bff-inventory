@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Typography from '@material-ui/core/Typography';
+import { ColorizeOutlined } from '@material-ui/icons';
 
 export default function Title(props) {
   return (

@@ -21,7 +21,7 @@ export default function DisplayLowStockItems() {
   const classes = useStyles();
   return (
     <React.Fragment>
-      <Title alignItem = "center">Low Stock </Title>
+      <Title alignItem = "center" >Low Stock </Title>
       <Typography component="p" variant="h4">
         2
       </Typography>
