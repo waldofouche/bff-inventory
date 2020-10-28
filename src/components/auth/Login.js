@@ -64,7 +64,7 @@ export default function SignIn() {
      -> Runs at start of accessing the website 
    */
 
-  useEffect(() => {
+  /* useEffect(() => {
     // Check if a user login token exists on the current device
     const checkLoggedIn = async () => {
       let token = localStorage.getItem("x-auth-token", "");
@@ -110,12 +110,12 @@ export default function SignIn() {
       }
     };
     checkLoggedIn();
-  }, []);
+  }, []); */
 
   // Sign in user when clicked
   const submit = async (e) => {
     e.preventDefault();
-    try {
+    /* try {
       const loginUser = { email, password };
       const loginRes = await Axios.post(
         "http://localhost:5000/users/login",
@@ -129,7 +129,8 @@ export default function SignIn() {
       history.push("/Home");
     } catch (error) {
       setOpen(true);
-    }
+    } */
+    history.push("/Home");
   };
 
   return (
