@@ -21,6 +21,9 @@ import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
 import Fade from "@material-ui/core/Fade";
 
+import Button from "@material-ui/core/Button";
+import TextField from "@material-ui/core/TextField";
+
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 const useStyles = (theme) => ({
@@ -29,9 +32,9 @@ const useStyles = (theme) => ({
     marginBottom: 20,
   },
   spinnerRoot: {
-    display: 'flex',
-    justifyContent: 'center',
-    paddingTop: '20px'
+    display: "flex",
+    justifyContent: "center",
+    paddingTop: "20px",
   },
   table: {
     minWidth: 650,
@@ -49,7 +52,6 @@ const useStyles = (theme) => ({
   },
 });
 
-
 class Inventory extends Component {
   constructor(props) {
     super(props);
@@ -63,6 +65,7 @@ class Inventory extends Component {
       modalOpen: false,
       currentProduct: [],
       loading: false,
+      editing: false,
     };
   }
 
@@ -117,7 +120,40 @@ class Inventory extends Component {
     this.setState({ tabValue: newValue });
   };
 
+  handleClick = (e) => {
+    this.setState({ editing: true });
+  };
+
+  handleConfirm = (e) => {
+    let updatedProduct = {};
+    let currentProduct = this.state.currentProduct;
+
+    updatedProduct.productName = e.target[0].value;
+    updatedProduct.SKU = e.target[1].value;
+    updatedProduct.currentStock = Number(e.target[2].value);
+    updatedProduct.onOrder = Number(e.target[3].value);
+    updatedProduct.price = Number(e.target[4].value);
+    updatedProduct.salePrice = Number(e.target[5].value);
+    updatedProduct.royalty = Number(e.target[6].value);
+    updatedProduct.wooID = currentProduct.invWooID;
+
+    console.log("product", updatedProduct);
+
+  Axios.post("http://localhost:5000/products/update/" + currentProduct._id, updatedProduct)
+  .then((response) => {
+    console.log("response", response)
+  })
+  .catch((err) => {
+    console.log(err)
+  })
+
+    this.setState({ editing: false, currentProduct: currentProduct });
+
+    e.preventDefault();
+  };
+
   render() {
+    console.log("editing", this.state.editing);
     const { classes } = this.props;
     // this.state.products.map((product) => (console.log("SKU", product.invSKU)))
     // console.log("SKU", this.state.products.invSKU);
@@ -172,12 +208,12 @@ class Inventory extends Component {
           </Table>
         </TableContainer>
         {this.state.products.length == 0 && this.state.loading == true ? (
-            <div className={classes.spinnerRoot}>
-              <CircularProgress />
-            </div>
-          ) : (
-            <div />
-          )}
+          <div className={classes.spinnerRoot}>
+            <CircularProgress />
+          </div>
+        ) : (
+          <div />
+        )}
         <Modal
           aria-labelledby="transition-modal-title"
           aria-describedby="transition-modal-description"
@@ -191,17 +227,104 @@ class Inventory extends Component {
           }}
         >
           <Fade in={this.state.modalOpen}>
-            <div className={classes.paper}>
-              <h2>{this.state.currentProduct.invProductName}</h2>
-              <p>SKU: {this.state.currentProduct.invSKU}</p>
-              <br />
-              <p>Stock on Hand: {this.state.currentProduct.invCurentStock}</p>
-              <p>Stock on Order: {this.state.currentProduct.invOnOrder}</p>
-              <br />
-              <p>Price: ${this.state.currentProduct.invPrice}</p>
-              <p>Sale Price: ${this.state.currentProduct.invSalePrice || "-"}</p>
-              <p>Artist Royalty: ${this.state.currentProduct.invRoyalty}</p>
-            </div>
+            {this.state.editing ? (
+              <div className={classes.paper}>
+                <form onSubmit={this.handleConfirm.bind(this)}>
+                  <div>
+                    <TextField
+                      required
+                      id="standard-required"
+                      label="Product Name"
+                      defaultValue={this.state.currentProduct.invProductName}
+                    />
+                  </div>
+                  <div>
+                    <TextField
+                      required
+                      id="standard-required"
+                      label="SKU *"
+                      defaultValue={this.state.currentProduct.invSKU}
+                    />
+                  </div>
+                  <br />
+                  <div>
+                    <TextField
+                      required
+                      id="standard-required"
+                      label="Stock on Hand"
+                      defaultValue={this.state.currentProduct.invCurrentStock}
+                    />
+                  </div>
+                  <div>
+                    <TextField
+                      required
+                      id="standard-required"
+                      label="Stock on Order"
+                      defaultValue={this.state.currentProduct.invOnOrder}
+                    />
+                  </div>
+                  <br />
+                  <div>
+                    <TextField
+                      required
+                      id="standard-required"
+                      label="Price"
+                      defaultValue={this.state.currentProduct.invPrice}
+                    />
+                  </div>
+                  <div>
+                    <TextField
+                      id="standard-basic"
+                      label="Sale Price"
+                      defaultValue={this.state.currentProduct.invSalePrice}
+                    />
+                  </div>
+                  <div>
+                    <TextField
+                      required
+                      id="standard-required"
+                      label="Product Royalty"
+                      defaultValue={this.state.currentProduct.invRoyalty}
+                    />
+                  </div>
+                  <br />
+                  <div>
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      type="submit"
+
+                    >
+                      Confirm
+                    </Button>
+                  </div>
+                </form>
+              </div>
+            ) : (
+              <div className={classes.paper}>
+                <h2>{this.state.currentProduct.invProductName}</h2>
+                <p>SKU: {this.state.currentProduct.invSKU}</p>
+                <br />
+                <p>
+                  Stock on Hand: {this.state.currentProduct.invCurrentStock}
+                </p>
+                <p>Stock on Order: {this.state.currentProduct.invOnOrder}</p>
+                <br />
+                <p>Price: ${this.state.currentProduct.invPrice}</p>
+                <p>
+                  Sale Price: ${this.state.currentProduct.invSalePrice || "-"}
+                </p>
+                <p>Artist Royalty: ${this.state.currentProduct.invRoyalty}</p>
+                <div>
+                  <Button
+                    variant="contained"
+                    onClick={this.handleClick.bind(this)}
+                  >
+                    Modify
+                  </Button>
+                </div>
+              </div>
+            )}
           </Fade>
         </Modal>
       </>
