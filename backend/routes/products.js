@@ -21,7 +21,7 @@ router.route('/add').post((req, res) => {
     const invSKU =req.body.SKU;
     const invSupplier = req.body.supplier;
     const invPrice = Number(req.body.price);
-    const invCurentStock = Number(req.body.curentStock);
+    const invCurrentStock = Number(req.body.currentStock);
     const invOnOrder = Number(req.body.onOrder);
     const invRoyalty = Number(req.body.royalty);
     const invWooID = Number(req.body.wooID);
@@ -32,7 +32,7 @@ router.route('/add').post((req, res) => {
       invSKU,
       invSupplier,
       invPrice,
-      invCurentStock,
+      invCurrentStock,
       invOnOrder,
       invRoyalty,
       invWooID,
@@ -59,7 +59,7 @@ router.route('/update/:id').post((req, res) => {
         product.invSKU =req.body.invSKU;
         product.invSupplier = req.body.invSupplier;
         product.invPrice = Number(req.body.invPrice);
-        product.invCurentStock = Number(req.body.invCurentStock);
+        product.invCurrentStock = Number(req.body.invCurrentStock);
         product.invOnOrder = Number(req.body.invOnOrder);
         product.invRoyalty = Number(req.body.invRoyalty);
         product.invWooID = Number(req.body.invWooID);

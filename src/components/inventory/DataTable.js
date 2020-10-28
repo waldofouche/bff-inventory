@@ -53,7 +53,7 @@ const Product = (props) => (
     <td>{props.product.supplier}</td>
     <td>{props.wooProduct.price}</td>
     <td>{props.wooProduct.sale_price}</td>
-    <td>{props.product.curentStock}</td>
+    <td>{props.product.currentStock}</td>
     <td>{props.product.onOrder}</td>
     <td>{props.product.royalty}</td>
     <td>{props.product.wooID}</td>
@@ -194,7 +194,7 @@ class Inventory extends Component {
                   <TableCell align="left">{product.slug}</TableCell>
                   <TableCell align="right">{product.invPrice}</TableCell>
                   <TableCell align="right">{product.invSalePrice}</TableCell>
-                  <TableCell align="right">{product.invCurentStock}</TableCell>
+                  <TableCell align="right">{product.invCurrentStock}</TableCell>
                   <TableCell align="right">{product.invOnOrder}</TableCell>
                   <TableCell align="right">{product.invRoyalty}</TableCell>
                 </TableRow>

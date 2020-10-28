@@ -9,7 +9,7 @@ const productSchema = new Schema({
     invSKU: {type: String, required: true, unique: true, trim: true, minlength: 3 },
     invSupplier: {type: String,required: true },
     invPrice: {type: Number, required: true},
-    invCurentStock: {type: Number, required: true},
+    invCurrentStock: {type: Number, required: true},
     invOnOrder: {type: Number, required: true},
     invRoyalty: {type: Number, required: true},
     invWooID: {type: Number, required: true},
