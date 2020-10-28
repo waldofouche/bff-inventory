@@ -68,31 +68,7 @@ class Inventory extends Component {
   }
 
   componentDidMount() {
-    Axios.get("http://localhost:5000/products")
-      .then((response) => {
-        return response.data;
-      })
-      .then((products) => {
-        Axios.get("http://localhost:5000/wooCommerce/products")
-          .then((response) => {
-            let mergedProducts = products.map((product) => {
-              return {
-                ...product,
-                ...response.data.find((wooProduct) => {
-                  return wooProduct.id === product.invWooID;
-                }),
-              };
-            });
-            console.log("merged", mergedProducts)
-            this.setState({ products: mergedProducts });
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    
   }
 
   deleteProduct(id) {

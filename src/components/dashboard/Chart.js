@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect } from 'react';
 import { useTheme } from '@material-ui/core/styles';
 import { LineChart, Line, XAxis, YAxis, Label, ResponsiveContainer } from 'recharts';
 import Title from './Title';
@@ -28,15 +28,23 @@ const data = [
 
 export default function Chart() {
   const theme = useTheme();
-  Axios.get("http://localhost:5000/orders")
-  .then((response) => {
-    let orders = response.data;
-    console.log("All Orders: ", orders);
-    this.setState({ orderList: orders });
-  })
-  .catch((error) => {
-    console.log(error);
-  });
+  useEffect(() => {
+    // Your code here
+    Axios.get("http://localhost:5000/orders")
+    .then((response) => {
+      let orders = response.data;
+      console.log("All Orders: ", orders);
+      this.setState({ orderList: orders });
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  }, []);
+
+  // let updatedOrders = this.state.orderList.filter((order) =>
+  // order.date.watever > lowerbound && order.date.whatever < upperbound)
+
+  
   return (
     <React.Fragment>
       <Title>{new Date().getFullYear()}</Title>
