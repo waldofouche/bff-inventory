@@ -57,9 +57,9 @@ class Chart extends Component {
       );
     });
 
-    let sumOfEachMonth = forGraphResults.reduce(function (a, b) {
+    /* let sumOfEachMonth = forGraphResults.reduce(function (a, b) {
       return a + b;
-    });
+    }); */
 
     //have 0,0 axis
     forGraphResults.push(createData(0, 0));
