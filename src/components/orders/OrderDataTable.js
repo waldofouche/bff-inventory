@@ -7,6 +7,7 @@ import { makeStyles, withStyles } from "@material-ui/core/styles";
 import Paper from "@material-ui/core/Paper";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 // Table Imports
 import Table from "@material-ui/core/Table";
@@ -28,159 +29,90 @@ const useStyles = makeStyles({
   table: {
     minWidth: 650,
   },
+
+  spinnerRoot: {
+    display: "flex",
+    justifyContent: "center",
+    paddingTop: "20px",
+  },
 });
 
-const Order = (props) => (
-  <tr>
-    <td>{props.wooProduct.name}</td>
-    <td>{props.wooProduct.sku}</td>
-    <td>{props.order.productID}</td>
-    <td>{props.wooProduct.price}</td>
-    <td>{props.wooProduct.sale_price}</td>
-    <td>{props.product.curentStock}</td>
-    <td>{props.product.onOrder}</td>
-    <td>{props.product.royalty}</td>
-    <td>{props.product.wooID}</td>
-    <td>{props.product.salePrice}</td>
-    <td>
-      <Link to={"/edit/" + props.wooProduct.id}>edit </Link>
-      <a
-        href="#"
-        onClick={refreshPage}
-        onClick={() => {
-          {
-            props.deleteProduct(props.wooProduct.id);
-          }
-        }}
-      >
-        delete{" "}
-      </a>
-    </td>
-  </tr>
-);
-
-class Inventory extends Component {
+class Order extends Component {
   constructor(props) {
     super(props);
 
-    this.deleteProduct = this.deleteProduct.bind(this);
-    this.state = { products: [], tabValue: 0, setValue: 0 };
+    // this.deleteProduct = this.deleteProduct.bind(this);
+    this.state = { orders: [], tabValue: 0, setValue: 0, loading: false };
   }
 
   componentDidMount() {
-    Axios.get("http://localhost:5000/order")
+    let results = [];
+    this.setState({ loading: true });
+    Axios.get("http://localhost:5000/wooCommerce/orders")
       .then((response) => {
-        return response.data;
-      })
-      .then((products) => {
-        Axios.get("http://localhost:5000/wooCommerce/products")
-          .then((response) => {
-            let mergedProducts = products.map((product) => {
-              return {
-                ...product,
-                ...response.data.find((wooProduct) => {
-                  return wooProduct.id === product.invWooID;
-                }),
-              };
-            });
-            console.log("merged", mergedProducts)
-            this.setState({ products: mergedProducts });
-          })
-          .catch((error) => {
-            console.log(error);
+        console.log(response.data);
+        response.data.forEach((order, index) => {
+          results.push({
+            id: order.id,
+            salePrice: order.total,
+            status: order.status,
+            date: order.date_created,
           });
+        });
+        this.setState({ orders: results, loading: false });
+        module.exports(results);
+        // console.log(results);
       })
       .catch((error) => {
         console.log(error);
       });
   }
 
-  deleteProduct(id) {
-    Axios.delete("http://localhost:5000/products/" + id).then((res) => {
-      console.log(res.data);
-    });
-
-    this.setState({
-      products: this.state.products.filter((el) => el.id !== id),
-    });
-  }
-
-  productsList() {
-    return this.state.products.map((currentproduct, index) => {
-      return (
-        <Product
-          product={currentproduct}
-          wooProduct={this.state.wooProducts[index]}
-          deleteProduct={this.deleteProduct}
-          key={currentproduct._id}
-        />
-      );
-    });
-  }
-
-  handleTabChange = (event, newValue) => {
-    this.setState({ tabValue: newValue });
-  };
-
   render() {
     const { classes } = this.props;
-    console.log("Products", this.state.products);
-    console.log("Woo Products", this.state.wooProducts);
+    console.log("Woo Orders", this.state.orders);
     // this.state.products.map((product) => (console.log("SKU", product.invSKU)))
     // console.log("SKU", this.state.products.invSKU);
     return (
       <>
-        <Paper className={classes.root}>
-          <Tabs
-            value={this.state.tabValue}
-            onChange={this.handleTabChange.bind(this)}
-            indicatorColor="primary"
-            textColor="primary"
-            centered
-          >
-            <Tab label="All Items" />
-            <Tab label="In Stock" />
-            <Tab label="Low Stock" />
-            <Tab label="Out of Stock" />
-          </Tabs>
-        </Paper>
         <TableContainer component={Paper}>
           <Table className={classes.table} aria-label="simple table">
             <TableHead>
               <TableRow>
-                <TableCell>Product Name</TableCell>
-                <TableCell align="right">SKU</TableCell>
-                <TableCell align="right">Supplier</TableCell>
+                <TableCell>ID</TableCell>
+                {/* <TableCell align="right">ID</TableCell> */}
                 <TableCell align="right">Price</TableCell>
-                <TableCell align="right">Sale Price</TableCell>
-                <TableCell align="right">Stock on Hand</TableCell>
-                <TableCell align="right">Stock on Order</TableCell>
-                <TableCell align="right">Artist Royalty</TableCell>
+                <TableCell align="right">Status</TableCell>
+                <TableCell align="right">Date</TableCell>
+                {/* <TableCell align="right">Status</TableCell>
+                <TableCell align="right">Product Size</TableCell>
+                <TableCell align="right">Date</TableCell> */}
               </TableRow>
             </TableHead>
             <TableBody>
-              {this.state.products.map((product) => (
-                <TableRow key={product.id}>
+              {this.state.orders.map((order) => (
+                <TableRow key={order.id}>
                   <TableCell component="th" scope="row">
-                    {product.invProductName}
+                    {order.id}
                   </TableCell>
-                  <TableCell align="right">{product.slug}</TableCell>
-                  <TableCell align="right">{product.invSupplier}</TableCell>
-                  <TableCell align="right">{product.invPrice}</TableCell>
-                  <TableCell align="right">{product.invSalePrice}</TableCell>
-                  <TableCell align="right">{product.invCurentStock}</TableCell>
-                  <TableCell align="right">{product.invOnOrder}</TableCell>
-                  <TableCell align="right">{product.invRoyalty}</TableCell>
+                  <TableCell align="right">{order.salePrice}</TableCell>
+                  <TableCell align="right">{order.status}</TableCell>
+                  <TableCell align="right">{order.date}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
           </Table>
         </TableContainer>
+        {this.state.orders.length == 0 && this.state.loading == true ? (
+          <div className={classes.spinnerRoot}>
+            <CircularProgress />
+          </div>
+        ) : (
+          <div />
+        )}
       </>
-         
     );
-    
   }
 }
 
-export default withStyles(useStyles)(Inventory);
+export default withStyles(useStyles)(Order);

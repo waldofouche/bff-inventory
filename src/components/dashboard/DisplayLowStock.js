@@ -18,21 +18,6 @@ const useStyles = makeStyles({
   },
 });
 
-const Product = (props) => (
-  <tr>
-    <td>{props.wooProduct.name}</td>
-    <td>{props.wooProduct.sku}</td>
-    <td>{props.product.supplier}</td>
-    <td>{props.wooProduct.price}</td>
-    <td>{props.wooProduct.sale_price}</td>
-    <td>{props.product.currentStock}</td>
-    <td>{props.product.onOrder}</td>
-    <td>{props.product.royalty}</td>
-    <td>{props.product.wooID}</td>
-    <td>{props.product.salePrice}</td>
-  </tr>
-);
-
 class DisplayLowStockItems extends Component {
   constructor(props) {
     super(props);
