@@ -55,15 +55,15 @@ router.route('/:id').delete((req, res) => {
 router.route('/update/:id').post((req, res) => {
     Product.findByIdAndUpdate(req.params.id)
       .then(product => {
-        product.invProductName = req.body.invProductName;
-        product.invSKU =req.body.invSKU;
-        product.invSupplier = req.body.invSupplier;
-        product.invPrice = Number(req.body.invPrice);
-        product.invCurrentStock = Number(req.body.invCurrentStock);
-        product.invOnOrder = Number(req.body.invOnOrder);
-        product.invRoyalty = Number(req.body.invRoyalty);
-        product.invWooID = Number(req.body.invWooID);
-        product.invSalePrice = Number(req.body.invSalePrice);
+        product.invProductName = req.body.productName;
+        product.invSKU =req.body.SKU;
+        product.invSupplier = req.body.supplier;
+        product.invPrice = Number(req.body.price);
+        product.invCurrentStock = Number(req.body.currentStock);
+        product.invOnOrder = Number(req.body.onOrder);
+        product.invRoyalty = Number(req.body.royalty);
+        product.invWooID = Number(req.body.wooID);
+        product.invSalePrice = Number(req.body.salePrice);
         
         product.save()
           .then(() => res.json('Product updated!'))
