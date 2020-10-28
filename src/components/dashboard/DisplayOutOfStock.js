@@ -17,7 +17,7 @@ class DisplayOutOfStockItems extends Component {
   }
   componentDidMount() {
     // Your code here
-    Axios.get(API_URL + "/products")
+    Axios.get(process.env.API_URL + "/products")
       .then((response) => {
         this.setState({ products: response.data });
       })
