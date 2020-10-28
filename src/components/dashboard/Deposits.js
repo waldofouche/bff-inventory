@@ -10,11 +10,8 @@ const useStyles = (theme) => ({
   },
 });
 
-function createData(amount) {
-  return { amount };
-}
 const d = new Date();
-const month = new Array();
+let month = [];
 month[0] = "January";
 month[1] = "February";
 month[2] = "March";
@@ -62,9 +59,9 @@ class Deposits extends Component {
 
     //Only take sales for completed orders for that particular month
     this.state.orders.forEach((order) => {
-      if (order.status == "completed") {
+      if (order.status === "completed") {
         //Match the month
-        if (Number(order.date.split("-", 2)[1]) == d.getMonth() + 1) {
+        if (Number(order.date.split("-", 2)[1]) === d.getMonth() + 1) {
           forDepositsResults.push(Number(order.salePrice));
         }
       }

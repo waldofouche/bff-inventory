@@ -99,7 +99,7 @@ export default function SignIn() {
           }
         });
 
-      if (login == true) {
+      if (login === true) {
         const userRes = await Axios.get("http://localhost:5000/users/", {
           headers: { "x-auth-token": token },
         });
@@ -110,7 +110,7 @@ export default function SignIn() {
       }
     };
     checkLoggedIn();
-  }, []);
+  });
 
   // Sign in user when clicked
   const submit = async (e) => {

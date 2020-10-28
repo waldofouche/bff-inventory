@@ -129,7 +129,6 @@ export default function Dashboard() {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-  const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
   const handleProfileToggle = () => {
     setProfileOpen((prevOpen) => !prevOpen);
   };
@@ -150,9 +149,9 @@ export default function Dashboard() {
   }
 
   const handleThemeChange = () => {
-    if (cookies.themeShade == "light") {
+    if (cookies.themeShade === "light") {
       setCookie("themeShade", "dark", { path: "/" });
-    } else if (cookies.themeShade == "dark") {
+    } else if (cookies.themeShade === "dark") {
       setCookie("themeShade", "light", { path: "/" });
     }
   };
@@ -182,10 +181,10 @@ export default function Dashboard() {
         headers: { "x-auth-token": token },
       })
         .then((res) => {
-          if (res == true) {
+          if (res === true) {
             login = true;
           }
-          if (res == false) {
+          if (res === false) {
             // Invalid User -> reroutes to login
             login = false;
             history.push("/");
@@ -207,7 +206,7 @@ export default function Dashboard() {
           }
         });
 
-      if (login == true) {
+      if (login === true) {
         const userRes = await Axios.get("http://localhost:5000/users/", {
           headers: { "x-auth-token": token },
         });
@@ -218,7 +217,7 @@ export default function Dashboard() {
       }
     };
     checkLoggedIn();
-  }, []);
+  });
 
   //Remove token when log out
   const logout = () => {
@@ -227,7 +226,7 @@ export default function Dashboard() {
       user: undefined,
     });
     localStorage.removeItem("x-auth-token");
-    handleProfileClose();
+    setProfileOpen(false);
   };
 
   return (
@@ -293,12 +292,7 @@ export default function Dashboard() {
                         id="menu-list-grow"
                         onKeyDown={handleProfileListKeyDown}
                       >
-                        <MenuItem
-                          onClick={handleProfileClose}
-                          onClick={logout}
-                          component={Link}
-                          to="/"
-                        >
+                        <MenuItem onClick={logout} component={Link} to="/">
                           Logout
                         </MenuItem>
                       </MenuList>

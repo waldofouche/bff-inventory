@@ -222,7 +222,7 @@ export default function Orders() {
       user: undefined,
     });
     localStorage.removeItem("x-auth-token");
-    handleProfileClose();
+    setProfileOpen(false);
   };
 
   return (

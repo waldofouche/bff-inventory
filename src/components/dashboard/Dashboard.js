@@ -156,10 +156,6 @@ export default function Dashboard() {
     }
   }
 
-  function handleMenuClose(event) {
-    logout();
-  }
-
   //Remove token when log out
   const logout = (event) => {
     setUserData({
@@ -167,10 +163,6 @@ export default function Dashboard() {
       user: undefined,
     });
     localStorage.removeItem("x-auth-token");
-    if (anchorRef.current && anchorRef.current.contains(event.target)) {
-      return;
-    }
-
     setProfileOpen(false);
   };
 
