@@ -191,7 +191,7 @@ export default function Dashboard() {
       .then(res=>{
         if (res == true){
             login= true;
-        } 
+        }
         if (res == false){
           // Invalid User -> reroutes to login
           login= false;

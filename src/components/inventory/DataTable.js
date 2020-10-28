@@ -158,7 +158,15 @@ class Inventory extends Component {
       product.invRoyalty = updatedProduct.royalty
       product.invWooID = updatedProduct.wooID
 
-    this.setState({ editing: false, currentProduct: {...currentProduct, ...product}});
+      let productList = this.state.products;
+
+      let updatedIndex = productList.findIndex(product => {
+        return product._id == currentProduct._id;
+      })
+
+      productList[updatedIndex] = {...productList[updatedIndex], ...product}
+
+    this.setState({ editing: false, currentProduct: {...currentProduct, ...product}, products: productList});
 
     e.preventDefault();
   };
