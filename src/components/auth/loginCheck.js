@@ -19,7 +19,7 @@ import {useEffect, useContext} from 'react';
       let login
     
       Axios.post(
-        process.env.API_URL + "/users/tokenIsValid",
+        "https://bff-backend.herokuapp.com/users/tokenIsValid",
         null,
         { headers: { "x-auth-token": token } }
       )
@@ -50,7 +50,7 @@ import {useEffect, useContext} from 'react';
     })
 
     if (login == true) {
-      const userRes = await Axios.get(process.env.API_URL + "/users/", {
+      const userRes = await Axios.get("https://bff-backend.herokuapp.com/users/", {
               headers: { "x-auth-token": token },
             });
             setUserData({

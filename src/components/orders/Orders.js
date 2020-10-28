@@ -173,7 +173,7 @@ export default function Orders() {
       let token = localStorage.getItem("x-auth-token", "");
       let login;
 
-      Axios.post(process.env.API_URL + "/users/tokenIsValid", null, {
+      Axios.post("https://bff-backend.herokuapp.com/users/tokenIsValid", null, {
         headers: { "x-auth-token": token },
       })
         .then((res) => {
@@ -203,7 +203,7 @@ export default function Orders() {
         });
 
       if (login === true) {
-        const userRes = await Axios.get(process.env.API_URL + "/users/", {
+        const userRes = await Axios.get("https://bff-backend.herokuapp.com/users/", {
           headers: { "x-auth-token": token },
         });
         setUserData({

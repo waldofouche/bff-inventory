@@ -17,7 +17,7 @@ class DisplayOutOfStockItems extends Component {
   }
   componentDidMount() {
     // Your code here
-    Axios.get(process.env.API_URL + "/products")
+    Axios.get("https://bff-backend.herokuapp.com/products")
       .then((response) => {
         this.setState({ products: response.data });
       })

@@ -37,7 +37,7 @@ class Deposits extends Component {
   componentDidMount() {
     let results = [];
     this.setState({ loading: true });
-    Axios.get(process.env.API_URL + "/wooCommerce/orders")
+    Axios.get("https://bff-backend.herokuapp.com/wooCommerce/orders")
       .then((response) => {
         response.data.forEach((order) => {
           results.push({
