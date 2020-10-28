@@ -70,7 +70,7 @@ export default function SignIn() {
       let token = localStorage.getItem("x-auth-token", "");
       let login;
 
-      Axios.post(process.env.API_URL + "users/tokenIsValid", null, {
+      await Axios.post(process.env.API_URL + "/users/tokenIsValid", null, {
         headers: { "x-auth-token": token },
       })
         .then((res) => {
@@ -100,7 +100,7 @@ export default function SignIn() {
         });
 
       if (login === true) {
-        const userRes = await Axios.get("http://localhost:5000/users/", {
+        const userRes = await Axios.get(process.env.API_URL + "/users/", {
           headers: { "x-auth-token": token },
         });
         setUserData({
