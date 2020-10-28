@@ -60,6 +60,7 @@ class Order extends Component {
           });
         });
         this.setState({ orders: results, loading: false });
+        module.exports(results);
         // console.log(results);
       })
       .catch((error) => {
