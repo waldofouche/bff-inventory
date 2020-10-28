@@ -172,8 +172,15 @@ class Inventory extends Component {
   };
 
   render() {
-    
     const { classes } = this.props;
+    let productsFiltered = this.state.products;
+    if (this.state.tabValue == 1) {
+      productsFiltered = this.state.products.filter(product => product.invCurrentStock > 0);
+    } else if (this.state.tabValue == 2) {
+      productsFiltered = this.state.products.filter(product => product.invCurrentStock < 5 && product.invCurrentStock > 0);
+    } else if (this.state.tabValue == 3) {
+      productsFiltered = this.state.products.filter(product => product.invCurrentStock <= 0);
+    }
     return (
       <>
         <Paper className={classes.root}>
@@ -204,7 +211,7 @@ class Inventory extends Component {
               </TableRow>
             </TableHead>
             <TableBody>
-              {this.state.products.map((product) => (
+              {productsFiltered.map((product) => (
                 <TableRow
                   key={product.invWooID}
                   onClick={this.handleModalOpen.bind(this, product)}
