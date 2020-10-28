@@ -1,5 +1,5 @@
 const router = require('express').Router();
-let Order = require('../models/product.model');
+let Order = require('../models/order.model');
 
   /* GET Products page. */
 router.route('/').get((req, res) => {
@@ -9,7 +9,7 @@ router.route('/').get((req, res) => {
   });
 
   /* GET Product */
-router.route('/:id').get((req,res) => {
+router.route('/get/:id').get((req,res) => {
     Order.findById(req.params.id)
      .then(order => res.json(order))
      .catch(err => res.status(400).json('Error: ' + err));
@@ -17,11 +17,11 @@ router.route('/:id').get((req,res) => {
 
   /* ADD new Product */
 router.route('/add').post((req, res) => {
-    const orderID = req.body.id;
+    const orderID = req.body.OrderId;
     const orderProductName = req.body.productName;
     const orderQuantity =req.body.orderQuantity;
-    const productID = req.body.prodctID;
-    const orderPrice = Number(req.body.price);
+    const productID = req.body.productID;
+    const orderPrice = Number(req.body.OrderPrice);
     const productVariationID = Number(req.body.variationID);
     const orderStatus = Number(req.body.status);
     const productSize = Number(req.body.size);

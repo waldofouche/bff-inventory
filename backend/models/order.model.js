@@ -7,7 +7,7 @@ const Schema = mongoose.Schema;
 const orderSchema = new Schema({
     orderID: {type: String, required: true},
     orderProductName: {type: String, required: true},
-    orderQuantity: {type: String, required: true, unique: true, trim: true, minlength: 3 },
+    orderQuantity: {type: String, required: true, unique: true},
     productID: {type: String,required: true },
     productVariationID: {type: String, required: true},
     orderPrice: {type: Number, required: true},
