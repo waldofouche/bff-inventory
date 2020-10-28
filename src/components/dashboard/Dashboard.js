@@ -1,73 +1,69 @@
-import React, { useState, useContext, useEffect} from "react";
-import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import Drawer from '@material-ui/core/Drawer';
-import Box from '@material-ui/core/Box';
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import List from '@material-ui/core/List';
-import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
-import IconButton from '@material-ui/core/IconButton';
-import Badge from '@material-ui/core/Badge';
-import Container from '@material-ui/core/Container';
-import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
+import React, { useState, useContext, useEffect } from "react";
+import clsx from "clsx";
+import { makeStyles } from "@material-ui/core/styles";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import Drawer from "@material-ui/core/Drawer";
+import Box from "@material-ui/core/Box";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import List from "@material-ui/core/List";
+import Typography from "@material-ui/core/Typography";
+import Divider from "@material-ui/core/Divider";
+import IconButton from "@material-ui/core/IconButton";
+import Badge from "@material-ui/core/Badge";
+import Container from "@material-ui/core/Container";
+import Grid from "@material-ui/core/Grid";
+import Paper from "@material-ui/core/Paper";
 // import Link from '@material-ui/core/Link';
-import MenuIcon from '@material-ui/icons/Menu';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import LockOpenIcon from '@material-ui/icons/LockOpen';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import { mainListItems} from '../dashboard/listItems';
-import Button from '@material-ui/core/Button';
-import ClickAwayListener from '@material-ui/core/ClickAwayListener';
-import Grow from '@material-ui/core/Grow';
-import Popper from '@material-ui/core/Popper';
-import MenuItem from '@material-ui/core/MenuItem';
-import MenuList from '@material-ui/core/MenuList';
-import Chart from '../dashboard/Chart';
-import Deposits from '../dashboard/Deposits';
-import DisplayOutOfStock from '../dashboard/DisplayOutOfStock';
-import DisplayLowStock from '../dashboard/DisplayLowStock';
+import MenuIcon from "@material-ui/icons/Menu";
+import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
+import LockOpenIcon from "@material-ui/icons/LockOpen";
+import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+import { mainListItems } from "../dashboard/listItems";
+import Button from "@material-ui/core/Button";
+import ClickAwayListener from "@material-ui/core/ClickAwayListener";
+import Grow from "@material-ui/core/Grow";
+import Popper from "@material-ui/core/Popper";
+import MenuItem from "@material-ui/core/MenuItem";
+import MenuList from "@material-ui/core/MenuList";
+import Chart from "../dashboard/Chart";
+import Deposits from "../dashboard/Deposits";
+import DisplayOutOfStock from "../dashboard/DisplayOutOfStock";
+import DisplayLowStock from "../dashboard/DisplayLowStock";
 // import Orders from './Orders';
 import { Link } from "react-router-dom";
 import UserContext from "../context/UserContext";
 import { useHistory } from "react-router-dom";
 import Axios from "axios";
 
-
-
-
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    display: 'flex',
+    display: "flex",
   },
   toolbar: {
     paddingRight: 24, // keep right padding when drawer closed
   },
   toolbarIcon: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    padding: '0 8px',
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "flex-end",
+    padding: "0 8px",
     ...theme.mixins.toolbar,
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
     background: "#e87f28",
-    transition: theme.transitions.create(['width', 'margin'], {
+    transition: theme.transitions.create(["width", "margin"], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
-    
     }),
   },
   appBarShift: {
     marginLeft: drawerWidth,
     width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(['width', 'margin'], {
+    transition: theme.transitions.create(["width", "margin"], {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
     }),
@@ -76,36 +72,36 @@ const useStyles = makeStyles((theme) => ({
     marginRight: 36,
   },
   menuButtonHidden: {
-    display: 'none',
+    display: "none",
   },
   title: {
     flexGrow: 1,
   },
   drawerPaper: {
-    position: 'relative',
-    whiteSpace: 'nowrap',
+    position: "relative",
+    whiteSpace: "nowrap",
     width: drawerWidth,
-    transition: theme.transitions.create('width', {
+    transition: theme.transitions.create("width", {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
     }),
   },
   drawerPaperClose: {
-    overflowX: 'hidden',
-    transition: theme.transitions.create('width', {
+    overflowX: "hidden",
+    transition: theme.transitions.create("width", {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
     }),
     width: theme.spacing(7),
-    [theme.breakpoints.up('sm')]: {
+    [theme.breakpoints.up("sm")]: {
       width: theme.spacing(9),
     },
   },
   appBarSpacer: theme.mixins.toolbar,
   content: {
     flexGrow: 1,
-    height: '100vh',
-    overflow: 'auto',
+    height: "100vh",
+    overflow: "auto",
   },
   container: {
     paddingTop: theme.spacing(4),
@@ -113,9 +109,9 @@ const useStyles = makeStyles((theme) => ({
   },
   paper: {
     padding: theme.spacing(2),
-    display: 'flex',
-    overflow: 'auto',
-    flexDirection: 'column',
+    display: "flex",
+    overflow: "auto",
+    flexDirection: "column",
   },
   fixedHeight: {
     height: 240,
@@ -161,7 +157,7 @@ export default function Dashboard() {
 
   //Close the list of menu items for the profile face if the tab key is pressed
   function handleProfileListKeyDown(event) {
-    if (event.key === 'Tab') {
+    if (event.key === "Tab") {
       event.preventDefault();
       setProfileOpen(false);
     }
@@ -185,7 +181,7 @@ export default function Dashboard() {
     // Check if a user login token exists on the current device
     const checkLoggedIn = async () => {
       let token = localStorage.getItem("auth-token");
-      
+
       // If token does not exist, create an empty one
       if (token === null) {
         localStorage.setItem("auth-token", "");
@@ -199,7 +195,7 @@ export default function Dashboard() {
         null,
         { headers: { "x-auth-token": token } }
       );
-      
+
       // Sets the token to the current verified user
       if (tokenRes.data) {
         const userRes = await Axios.get("http://localhost:5000/users/", {
@@ -209,8 +205,6 @@ export default function Dashboard() {
           token,
           user: userRes.data,
         });
-        
-        
       }
     };
 
@@ -230,45 +224,78 @@ export default function Dashboard() {
   return (
     <div className={classes.root}>
       <CssBaseline />
-      <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
+      <AppBar
+        position="absolute"
+        className={clsx(classes.appBar, open && classes.appBarShift)}
+      >
         <Toolbar className={classes.toolbar}>
           <IconButton
-
             edge="start"
             color="inherit"
             aria-label="open drawer"
             onClick={handleDrawerOpen}
-            className={clsx(classes.menuButton, open && classes.menuButtonHidden)}
+            className={clsx(
+              classes.menuButton,
+              open && classes.menuButtonHidden
+            )}
           >
             <MenuIcon />
           </IconButton>
-          <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
+          <Typography
+            component="h1"
+            variant="h6"
+            color="inherit"
+            noWrap
+            className={classes.title}
+          >
             BFF Dashboard
           </Typography>
-          <IconButton color="inherit" 
-          ref= {anchorRef}
-          aria-controls={profileOpen ? 'menu-list-grow' : undefined} 
-          aria-haspopup="true"
-          onClick={handleProfileToggle}>
-              <AccountCircleIcon/>
-          <Popper open={profileOpen} anchorEl={anchorRef.current} role={undefined} transition disablePortal>
-          {({ TransitionProps, placement }) => (
-            <Grow
-              {...TransitionProps}
-              style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
+          <IconButton
+            color="inherit"
+            ref={anchorRef}
+            aria-controls={profileOpen ? "menu-list-grow" : undefined}
+            aria-haspopup="true"
+            onClick={handleProfileToggle}
+          >
+            <AccountCircleIcon />
+            <Popper
+              open={profileOpen}
+              anchorEl={anchorRef.current}
+              role={undefined}
+              transition
+              disablePortal
             >
-              <Paper>
-                <ClickAwayListener onClickAway={handleProfileClose}>
-                  <MenuList autoFocusItem={profileOpen} id="menu-list-grow" onKeyDown={handleProfileListKeyDown}>
-                    {/*add clear login token */}
-                    <MenuItem onClick={handleProfileClose} onClick={logout} component = {Link} to ="/" >Logout</MenuItem>
-                  </MenuList>
-                </ClickAwayListener>
-              </Paper>
-            </Grow>
-          )}
-        </Popper>
-        </IconButton>
+              {({ TransitionProps, placement }) => (
+                <Grow
+                  {...TransitionProps}
+                  style={{
+                    transformOrigin:
+                      placement === "bottom" ? "center top" : "center bottom",
+                  }}
+                >
+                  <Paper>
+                    <ClickAwayListener onClickAway={handleProfileClose}>
+                      <MenuList
+                        autoFocusItem={profileOpen}
+                        id="menu-list-grow"
+                        onKeyDown={handleProfileListKeyDown}
+                      >
+                        {/*add clear login token */}
+                        <MenuItem
+                          onClick={handleProfileClose}
+                          onClick={logout}
+                          component={Link}
+                          to="/"
+                        >
+                          Logout
+                        </MenuItem>
+                      </MenuList>
+                    </ClickAwayListener>
+                  </Paper>
+                </Grow>
+              )}
+            </Popper>
+          </IconButton>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -287,28 +314,26 @@ export default function Dashboard() {
         <Divider />
         <List>{mainListItems}</List>
       </Drawer>
-      <main className={classes.content} style ={{alignItems:'right'}} >
+      <main className={classes.content} style={{ alignItems: "right" }}>
         <div className={classes.appBarSpacer} />
-        <Container maxWidth="lg" className={classes.container} >
+        <Container maxWidth="lg" className={classes.container}>
           <Grid container spacing={3}>
-          <Grid item xs = {12} md={4} lg={4}>
+            <Grid item xs={12} md={4} lg={4}>
               <Paper className={fixedHeightPaper}>
                 {/* <Out of stock items />
                  */}
 
-                 <DisplayOutOfStock/>
-                </Paper>
-           
-              </Grid>
-          <Grid item xs = {12} md={4} lg={4} >
+                <DisplayOutOfStock />
+              </Paper>
+            </Grid>
+            <Grid item xs={12} md={4} lg={4}>
               <Paper className={fixedHeightPaper}>
                 {/* <Orders />
                  */}
-                <DisplayLowStock/>
+                <DisplayLowStock />
               </Paper>
-           
-              </Grid>
-              <Grid item xs={12} md={4} lg={4}>
+            </Grid>
+            <Grid item xs={12} md={4} lg={4}>
               <Paper className={fixedHeightPaper}>
                 <Deposits />
               </Paper>
@@ -316,18 +341,15 @@ export default function Dashboard() {
 
             {/* Chart */}
             <Grid item xs={12} md={12} lg={12}>
-              <Paper className={fixedHeightPaper} style = {{height: 500}}>
+              <Paper className={fixedHeightPaper} style={{ height: 500 }}>
                 <Chart />
               </Paper>
             </Grid>
             {/* Recent Deposits */}
 
             {/* Recent Orders */}
-  
           </Grid>
-          
         </Container>
-        
       </main>
     </div>
   );

@@ -47,7 +47,36 @@ const useStyles = (theme) => ({
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
   },
-});
+}));
+
+const Product = (props) => (
+  <tr>
+    <td>{props.wooProduct.name}</td>
+    <td>{props.wooProduct.sku}</td>
+    <td>{props.product.supplier}</td>
+    <td>{props.wooProduct.price}</td>
+    <td>{props.wooProduct.sale_price}</td>
+    <td>{props.product.currentStock}</td>
+    <td>{props.product.onOrder}</td>
+    <td>{props.product.royalty}</td>
+    <td>{props.product.wooID}</td>
+    <td>{props.product.salePrice}</td>
+    <td>
+      <Link to={"/edit/" + props.wooProduct.id}>edit </Link>
+      <a
+        href="#"
+        onClick={refreshPage}
+        onClick={() => {
+          {
+            props.deleteProduct(props.wooProduct.id);
+          }
+        }}
+      >
+        delete{" "}
+      </a>
+    </td>
+  </tr>
+);
 
 class Inventory extends Component {
   constructor(props) {
@@ -161,10 +190,8 @@ class Inventory extends Component {
                   </TableCell>
                   <TableCell align="right">{product.invSKU}</TableCell>
                   <TableCell align="right">{product.invPrice}</TableCell>
-                  <TableCell align="right">
-                    {product.invSalePrice || "-"}
-                  </TableCell>
-                  <TableCell align="right">{product.invCurentStock}</TableCell>
+                  <TableCell align="right">{product.invSalePrice}</TableCell>
+                  <TableCell align="right">{product.invCurrentStock}</TableCell>
                   <TableCell align="right">{product.invOnOrder}</TableCell>
                   <TableCell align="right">{product.invRoyalty}</TableCell>
                 </TableRow>
