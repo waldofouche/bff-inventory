@@ -169,7 +169,7 @@ export default function Dashboard() {
       token: undefined,
       user: undefined,
     });
-    localStorage.setItem("auth-token", "");
+    localStorage.removeItem("x-auth-token");
   };
 
   /* Checks if a user has previously logged in on the device
@@ -180,7 +180,7 @@ export default function Dashboard() {
   useEffect(() => {
     // Check if a user login token exists on the current device
     const checkLoggedIn = async () => {
-      let token = localStorage.getItem("auth-token","");
+      let token = localStorage.getItem("x-auth-token","");
       let login
     
       Axios.post(

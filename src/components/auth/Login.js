@@ -73,18 +73,22 @@ export default function SignIn() {
     setOpen(false);
   }
 
-  /* Checks if a user has previously logged in on the device
+   /* Checks if a user has previously logged in on the device
      and if the credentials are valid 
      -> Runs at start of accessing the website 
    */
 
-  /* useEffect(() => {
+  useEffect(() => {
     // Check if a user login token exists on the current device
     const checkLoggedIn = async () => {
-      let token = localStorage.getItem("auth-token","");
+      let token = localStorage.getItem("x-auth-token","");
       let login
     
-    Axios.post()
+      Axios.post(
+        "http://localhost:5000/users/tokenIsValid",
+        null,
+        { headers: { "x-auth-token": token } }
+      )
       .then(res=>{
         if (res == true){
             login= true;
@@ -92,21 +96,22 @@ export default function SignIn() {
         if (res == false){
           // Invalid User -> reroutes to login
           login= false;
+          history.push("/");
         }
       })
       .catch(err => {
         if (err.response) {
           // client received an error response (5xx, 4xx)
           login= false;
-          history.push("/'");
+          history.push("/");
         } else if (err.request) {
           // client never received a response, or request never left
           login= false;
-          history.push("/'");
+          history.push("/");
         } else {
           // anything else
           login= false;
-          history.push("/'");
+          history.push("/");
         }
     })
 
@@ -118,21 +123,10 @@ export default function SignIn() {
               token,
               user: userRes.data,
             });
-    } 
-
-    if(login ==false){
-      // Invalid User -> reroutes to login
-      history.push("/'");
     }
-
-
-    
-      
     }
-      
-
     checkLoggedIn();
-  }, []); */
+  }, []);
 
   // Sign in user when clicked
   const submit = async (e) => {
@@ -147,8 +141,8 @@ export default function SignIn() {
         token: loginRes.data.token,
         user: loginRes.data.user,
       });
-      localStorage.setItem("auth-token", loginRes.data.token);
-      history.push("/home");
+      localStorage.setItem("x-auth-token", loginRes.data.token);
+      history.push("/Home");
     }
     catch (error){
       setOpen(true)

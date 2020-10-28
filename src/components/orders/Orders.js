@@ -173,7 +173,7 @@ export default function Orders() {
   useEffect(() => {
     // Check if a user login token exists on the current device
     const checkLoggedIn = async () => {
-      let token = localStorage.getItem("auth-token","");
+      let token = localStorage.getItem("x-auth-token","");
       let login
     
       Axios.post(
@@ -219,6 +219,15 @@ export default function Orders() {
     }
     checkLoggedIn();
   }, []);
+
+  //Remove token when log out
+  const logout = () => {
+    setUserData({
+      token: undefined,
+      user: undefined,
+    });
+    localStorage.removeItem("x-auth-token");
+  };
 
   return (
     <div className={classes.root}>
@@ -281,6 +290,7 @@ export default function Orders() {
                       >
                         <MenuItem
                           onClick={handleProfileClose}
+                          onClick={logout}
                           component={Link}
                           to="/"
                         >

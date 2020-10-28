@@ -178,7 +178,7 @@ export default function Dashboard() {
   useEffect(() => {
     // Check if a user login token exists on the current device
     const checkLoggedIn = async () => {
-      let token = localStorage.getItem("auth-token","");
+      let token = localStorage.getItem("x-auth-token","");
       let login
     
       Axios.post(
@@ -225,6 +225,15 @@ export default function Dashboard() {
     checkLoggedIn();
   }, []);
 
+  //Remove token when log out
+  const logout = () => {
+    setUserData({
+      token: undefined,
+      user: undefined,
+    });
+    localStorage.removeItem("x-auth-token");
+  };
+
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -259,7 +268,7 @@ export default function Dashboard() {
               <Paper>
                 <ClickAwayListener onClickAway={handleProfileClose}>
                   <MenuList autoFocusItem={profileOpen} id="menu-list-grow" onKeyDown={handleProfileListKeyDown}>
-                    <MenuItem onClick={handleProfileClose} component = {Link} to ="/">Logout</MenuItem>
+                    <MenuItem onClick={handleProfileClose} onClick={logout} component = {Link} to ="/">Logout</MenuItem>
                   </MenuList>
                 </ClickAwayListener>
               </Paper>
