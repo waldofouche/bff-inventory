@@ -1,9 +1,7 @@
 import React, { useState, useContext, useEffect } from "react";
-import { Link } from "react-router-dom";
 import Axios from "axios";
 import UserContext from "../context/UserContext";
 import { useHistory } from "react-router-dom";
-import { Redirect } from "react-router-dom";
 
 // Material UI Imports
 import Avatar from "@material-ui/core/Avatar";
@@ -13,8 +11,6 @@ import TextField from "@material-ui/core/TextField";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
 //import Link from '@material-ui/core/Link';
-import Grid from "@material-ui/core/Grid";
-import Box from "@material-ui/core/Box";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
@@ -51,7 +47,6 @@ export default function SignIn() {
   const classes = useStyles();
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
-  const [error, setError] = useState();
   const [open, setOpen] = React.useState(false);
 
   const { setUserData } = useContext(UserContext);
@@ -79,10 +74,10 @@ export default function SignIn() {
         headers: { "x-auth-token": token },
       })
         .then((res) => {
-          if (res == true) {
+          if (res === true) {
             login = true;
           }
-          if (res == false) {
+          if (res === false) {
             // Invalid User -> reroutes to login
             login = false;
             history.push("/");

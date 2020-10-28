@@ -1,14 +1,8 @@
-import React, { useState, useContext, Component } from "react";
-import { Link as Link1 } from "react-router-dom";
+import React, { Component } from "react";
 import Axios from "axios";
-import Link from "@material-ui/core/Link";
-import { makeStyles, withStyles } from "@material-ui/core/styles";
+import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Title from "./Title";
-
-function preventDefault(event) {
-  event.preventDefault();
-}
 
 const useStyles = (theme) => ({
   depositContext: {
@@ -48,7 +42,7 @@ class Deposits extends Component {
     this.setState({ loading: true });
     Axios.get("http://localhost:5000/wooCommerce/orders")
       .then((response) => {
-        response.data.forEach((order, index) => {
+        response.data.forEach((order) => {
           results.push({
             id: order.id,
             salePrice: order.total,
@@ -67,7 +61,7 @@ class Deposits extends Component {
     let forDepositsResults = [];
 
     //Only take sales for completed orders for that particular month
-    this.state.orders.forEach((order, index) => {
+    this.state.orders.forEach((order) => {
       if (order.status == "completed") {
         //Match the month
         if (Number(order.date.split("-", 2)[1]) == d.getMonth() + 1) {

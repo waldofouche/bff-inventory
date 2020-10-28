@@ -1,18 +1,10 @@
-import React, { useEffect, Component } from "react";
-import Link from "@material-ui/core/Link";
-import { makeStyles, withStyles } from "@material-ui/core/styles";
+import React, { Component } from "react";
+import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Title from "./Title";
-import { useHistory } from "react-router-dom";
-import { Link as ReactDomLink } from "react-router-dom";
 import Axios from "axios";
-import { render } from "@testing-library/react";
 
-function preventDefault(event) {
-  event.preventDefault();
-}
-
-const useStyles = (theme) =>({
+const useStyles = (theme) => ({
   depositContext: {
     flex: 1,
   },
@@ -40,7 +32,7 @@ class DisplayLowStockItems extends Component {
     let updatedLowStock = this.state.products.filter(
       (el) => el.invCurrentStock < 5
     );
-    
+
     const { classes } = this.props;
     let numberOfLowStock = 0;
     if (updatedLowStock) {
@@ -57,7 +49,7 @@ class DisplayLowStockItems extends Component {
         <Typography color="textSecondary" className={classes.depositContext}>
           Unique Items
         </Typography>
-        </div>
+      </div>
     );
   }
 }

@@ -1,46 +1,34 @@
-import React from 'react';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListSubheader from '@material-ui/core/ListSubheader';
-import DashboardIcon from '@material-ui/icons/Dashboard';
-import ShoppingCartIcon from '@material-ui/icons/ShoppingCart';
-import PeopleIcon from '@material-ui/icons/People';
-import BarChartIcon from '@material-ui/icons/BarChart';
-import LayersIcon from '@material-ui/icons/Layers';
-import AssignmentIcon from '@material-ui/icons/Assignment';
-import StorageIcon from '@material-ui/icons/Storage';
+import React from "react";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
+import ListSubheader from "@material-ui/core/ListSubheader";
+import DashboardIcon from "@material-ui/icons/Dashboard";
+import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
+
+import AssignmentIcon from "@material-ui/icons/Assignment";
+import StorageIcon from "@material-ui/icons/Storage";
 
 import { Link } from "react-router-dom";
-import { RootRef } from '@material-ui/core';
-
-const useStyles = {
-root: {
-  color: "#D6D7D8",
-
-},
-};
 
 export const mainListItems = (
   <div>
-    
-        <ListItem button component={Link} to="/Home">
-        <ListItemIcon>
-            <DashboardIcon/>
-        </ListItemIcon>
-        <ListItemText primary="Dashboard" />
-        
-        </ListItem>
-    
-    <ListItem button component = {Link} to= "/orders">
+    <ListItem button component={Link} to="/Home">
       <ListItemIcon>
-        <ShoppingCartIcon  />
+        <DashboardIcon />
+      </ListItemIcon>
+      <ListItemText primary="Dashboard" />
+    </ListItem>
+
+    <ListItem button component={Link} to="/orders">
+      <ListItemIcon>
+        <ShoppingCartIcon />
       </ListItemIcon>
       <ListItemText primary="Orders" />
     </ListItem>
     <ListItem button component={Link} to="/inventory">
       <ListItemIcon>
-        <StorageIcon/>
+        <StorageIcon />
       </ListItemIcon>
       <ListItemText primary="Inventory" />
     </ListItem>
@@ -52,10 +40,9 @@ export const secondaryListItems = (
     <ListSubheader inset>Saved reports</ListSubheader>
     <ListItem button>
       <ListItemIcon>
-        <AssignmentIcon/>
+        <AssignmentIcon />
       </ListItemIcon>
       <ListItemText primary="Current month" />
     </ListItem>
-
   </div>
 );

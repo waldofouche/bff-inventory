@@ -1,26 +1,21 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Drawer from "@material-ui/core/Drawer";
-import Box from "@material-ui/core/Box";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import List from "@material-ui/core/List";
 import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
-import Badge from "@material-ui/core/Badge";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
-// import Link from '@material-ui/core/Link';
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import LockOpenIcon from "@material-ui/icons/LockOpen";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import { mainListItems } from "../dashboard/listItems";
-import Button from "@material-ui/core/Button";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import Grow from "@material-ui/core/Grow";
 import Popper from "@material-ui/core/Popper";
@@ -117,10 +112,6 @@ const useStyles = makeStyles((theme) => ({
   fixedHeight: {
     height: 240,
   },
-  mainList: {
-    // backgroundColor: "#2C363B",
-    // color: "#D6D7D8",
-  },
 }));
 
 export default function Dashboard() {
@@ -165,19 +156,28 @@ export default function Dashboard() {
     }
   }
 
+  function handleMenuClose(event) {
+    logout();
+  }
+
   //Remove token when log out
-  const logout = () => {
+  const logout = (event) => {
     setUserData({
       token: undefined,
       user: undefined,
     });
     localStorage.removeItem("x-auth-token");
+    if (anchorRef.current && anchorRef.current.contains(event.target)) {
+      return;
+    }
+
+    setProfileOpen(false);
   };
 
   const handleThemeChange = () => {
-    if (cookies.themeShade == "light") {
+    if (cookies.themeShade === "light") {
       setCookie("themeShade", "dark", { path: "/" });
-    } else if (cookies.themeShade == "dark") {
+    } else if (cookies.themeShade === "dark") {
       setCookie("themeShade", "light", { path: "/" });
     }
   };
@@ -197,10 +197,10 @@ export default function Dashboard() {
         headers: { "x-auth-token": token },
       })
         .then((res) => {
-          if (res == true) {
+          if (res === true) {
             login = true;
           }
-          if (res == false) {
+          if (res === false) {
             // Invalid User -> reroutes to login
             login = false;
             history.push("/");
@@ -222,7 +222,7 @@ export default function Dashboard() {
           }
         });
 
-      if (login == true) {
+      if (login === true) {
         const userRes = await Axios.get("http://localhost:5000/users/", {
           headers: { "x-auth-token": token },
         });
@@ -233,7 +233,7 @@ export default function Dashboard() {
       }
     };
     checkLoggedIn();
-  }, []);
+  });
 
   // return focus to the button when we transitioned from !open -> open
   const prevOpen = React.useRef(profileOpen);
@@ -309,8 +309,8 @@ export default function Dashboard() {
                       >
                         {/*add clear login token */}
                         <MenuItem
-                          onClick={handleProfileClose}
                           onClick={logout}
+                          // onClick={logout}
                           component={Link}
                           to="/"
                         >

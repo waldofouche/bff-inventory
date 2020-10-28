@@ -1,8 +1,6 @@
-import React, { useState, useContext, Component } from "react";
-import { Link } from "react-router-dom";
+import React, { Component } from "react";
 import Axios from "axios";
-import { Refresh } from "@material-ui/icons";
-import { makeStyles, withStyles } from "@material-ui/core/styles";
+import { withStyles } from "@material-ui/core/styles";
 
 import Paper from "@material-ui/core/Paper";
 import Tabs from "@material-ui/core/Tabs";
@@ -138,8 +136,11 @@ class Inventory extends Component {
     updatedProduct.royalty = Number(e.target[6].value);
     updatedProduct.wooID = Number(currentProduct.invWooID);
 
-
-    Axios.post("http://localhost:5000/products/update/" + currentProduct._id.toString(), updatedProduct, {headers:{'Content-Type': 'application/json'}})
+    Axios.post(
+      "http://localhost:5000/products/update/" + currentProduct._id.toString(),
+      updatedProduct,
+      { headers: { "Content-Type": "application/json" } }
+    )
       .then((response) => {
         console.log("response", response);
       })
@@ -147,26 +148,30 @@ class Inventory extends Component {
         console.log(err.response);
       });
 
-      let product = {}
-      product.invProductName = updatedProduct.productName
-      product.invSKU = updatedProduct.SKU
-      product.invCurrentStock = updatedProduct.currentStock
-      product.invSupplier = updatedProduct.supplier
-      product.invOnOrder = updatedProduct.onOrder
-      product.invPrice =  updatedProduct.price
-      product.invSalePrice = updatedProduct.salePrice
-      product.invRoyalty = updatedProduct.royalty
-      product.invWooID = updatedProduct.wooID
+    let product = {};
+    product.invProductName = updatedProduct.productName;
+    product.invSKU = updatedProduct.SKU;
+    product.invCurrentStock = updatedProduct.currentStock;
+    product.invSupplier = updatedProduct.supplier;
+    product.invOnOrder = updatedProduct.onOrder;
+    product.invPrice = updatedProduct.price;
+    product.invSalePrice = updatedProduct.salePrice;
+    product.invRoyalty = updatedProduct.royalty;
+    product.invWooID = updatedProduct.wooID;
 
-      let productList = this.state.products;
+    let productList = this.state.products;
 
-      let updatedIndex = productList.findIndex(product => {
-        return product._id == currentProduct._id;
-      })
+    let updatedIndex = productList.findIndex((product) => {
+      return product._id === currentProduct._id;
+    });
 
-      productList[updatedIndex] = {...productList[updatedIndex], ...product}
+    productList[updatedIndex] = { ...productList[updatedIndex], ...product };
 
-    this.setState({ editing: false, currentProduct: {...currentProduct, ...product}, products: productList});
+    this.setState({
+      editing: false,
+      currentProduct: { ...currentProduct, ...product },
+      products: productList,
+    });
 
     e.preventDefault();
   };
@@ -174,12 +179,18 @@ class Inventory extends Component {
   render() {
     const { classes } = this.props;
     let productsFiltered = this.state.products;
-    if (this.state.tabValue == 1) {
-      productsFiltered = this.state.products.filter(product => product.invCurrentStock > 0);
-    } else if (this.state.tabValue == 2) {
-      productsFiltered = this.state.products.filter(product => product.invCurrentStock < 5 && product.invCurrentStock > 0);
-    } else if (this.state.tabValue == 3) {
-      productsFiltered = this.state.products.filter(product => product.invCurrentStock <= 0);
+    if (this.state.tabValue === 1) {
+      productsFiltered = this.state.products.filter(
+        (product) => product.invCurrentStock > 0
+      );
+    } else if (this.state.tabValue === 2) {
+      productsFiltered = this.state.products.filter(
+        (product) => product.invCurrentStock < 5 && product.invCurrentStock > 0
+      );
+    } else if (this.state.tabValue === 3) {
+      productsFiltered = this.state.products.filter(
+        (product) => product.invCurrentStock <= 0
+      );
     }
     return (
       <>
@@ -231,7 +242,7 @@ class Inventory extends Component {
             </TableBody>
           </Table>
         </TableContainer>
-        {this.state.products.length == 0 && this.state.loading == true ? (
+        {this.state.products.length === 0 && this.state.loading === true ? (
           <div className={classes.spinnerRoot}>
             <CircularProgress />
           </div>

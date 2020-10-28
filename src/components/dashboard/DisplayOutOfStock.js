@@ -1,16 +1,8 @@
-import React, { useEffect, Component } from "react";
-import Link from "@material-ui/core/Link";
-import { makeStyles, withStyles } from "@material-ui/core/styles";
+import React, { Component } from "react";
+import { withStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Title from "./Title";
-import { useHistory } from "react-router-dom";
-import { Link as ReactDomLink } from "react-router-dom";
 import Axios from "axios";
-import { render } from "@testing-library/react";
-
-function preventDefault(event) {
-  event.preventDefault();
-}
 
 const useStyles = (theme) => ({
   depositContext: {
@@ -38,7 +30,7 @@ class DisplayOutOfStockItems extends Component {
   // product.current.watever > lowerbound && order.date.whatever < upperbound)
   render() {
     let updatedOutOfStock = this.state.products.filter(
-      (el) => el.invCurrentStock == 0
+      (el) => el.invCurrentStock === 0
     );
 
     const { classes } = this.props;

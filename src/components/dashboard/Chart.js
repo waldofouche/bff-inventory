@@ -1,5 +1,5 @@
-import React, { Component, useEffect } from "react";
-import { useTheme, withStyles } from "@material-ui/core/styles";
+import React, { Component } from "react";
+import { withStyles } from "@material-ui/core/styles";
 import {
   LineChart,
   Line,
@@ -17,7 +17,7 @@ function createData(month, amount) {
   return { month, amount };
 }
 
-const useStyles = (theme) => ({});
+const useStyles = () => ({});
 
 class Chart extends Component {
   constructor(props) {
@@ -47,9 +47,8 @@ class Chart extends Component {
       });
   }
   render() {
-    const { theme } = this.props;
     let forGraphResults = [];
-    this.state.orders.forEach((order, index) => {
+    this.state.orders.forEach((order) => {
       forGraphResults.push(
         createData(
           order.date.split("-", 2)[1] + "/" + order.date.split("-", 2)[0],

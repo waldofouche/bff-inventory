@@ -1,12 +1,9 @@
-import React, { useState, useContext, Component } from "react";
-import { Link } from "react-router-dom";
+import React, { Component } from "react";
 import Axios from "axios";
-import { Refresh } from "@material-ui/icons";
-import { makeStyles, withStyles } from "@material-ui/core/styles";
+import { withStyles } from "@material-ui/core/styles";
 
 import Paper from "@material-ui/core/Paper";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
+
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 // Table Imports
@@ -16,10 +13,6 @@ import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-
-function refreshPage() {
-  window.location.reload(true);
-}
 
 const useStyles = (theme) => ({
   root: {
@@ -51,7 +44,7 @@ class Order extends Component {
     Axios.get("http://localhost:5000/wooCommerce/orders")
       .then((response) => {
         console.log(response.data);
-        response.data.forEach((order, index) => {
+        response.data.forEach((order) => {
           results.push({
             id: order.id,
             salePrice: order.total,
@@ -103,7 +96,7 @@ class Order extends Component {
             </TableBody>
           </Table>
         </TableContainer>
-        {this.state.orders.length == 0 && this.state.loading == true ? (
+        {this.state.orders.length === 0 && this.state.loading === true ? (
           <div className={classes.spinnerRoot}>
             <CircularProgress />
           </div>
