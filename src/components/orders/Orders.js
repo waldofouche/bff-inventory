@@ -32,18 +32,6 @@ import Deposits from '../dashboard/Deposits';
 import { Link } from "react-router-dom";
 
 
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
 
 const drawerWidth = 240;
 
@@ -207,7 +195,6 @@ export default function Orders() {
               <Paper>
                 <ClickAwayListener onClickAway={handleProfileClose}>
                   <MenuList autoFocusItem={profileOpen} id="menu-list-grow" onKeyDown={handleProfileListKeyDown}>
-                    <MenuItem onClick={handleProfileClose}>My account</MenuItem>
                     <MenuItem onClick={handleProfileClose} component = {Link} to ="/">Logout</MenuItem>
                   </MenuList>
                 </ClickAwayListener>
@@ -230,8 +217,6 @@ export default function Orders() {
             <ChevronLeftIcon />
           </IconButton>
         </div>
-        <img src ="bff-logo.png" alt = "BFF logo"/>
-
         <Divider />
         <List>{mainListItems}</List>
       </Drawer>
@@ -258,9 +243,6 @@ export default function Orders() {
               </Paper>
             </Grid>
           </Grid>
-          <Box pt={4}>
-            <Copyright />
-          </Box>
         </Container>
       </main>
     </div>

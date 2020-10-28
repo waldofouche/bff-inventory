@@ -1,12 +1,18 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { useTheme } from '@material-ui/core/styles';
 import { LineChart, Line, XAxis, YAxis, Label, ResponsiveContainer } from 'recharts';
 import Title from './Title';
+import Axios from "axios";
 
 // Generate Sales Data
 function createData(month, amount) {
   return { month, amount };
 }
+
+
+
+
+
 
 const data = [
   createData('01/20', 0),
@@ -22,7 +28,15 @@ const data = [
 
 export default function Chart() {
   const theme = useTheme();
-
+  Axios.get("http://localhost:5000/orders")
+  .then((response) => {
+    let orders = response.data;
+    console.log("All Orders: ", orders);
+    this.setState({ orderList: orders });
+  })
+  .catch((error) => {
+    console.log(error);
+  });
   return (
     <React.Fragment>
       <Title>{new Date().getFullYear()}</Title>
