@@ -29,9 +29,9 @@ const useStyles = (theme) => ({
     marginBottom: 20,
   },
   spinnerRoot: {
-    display: 'flex',
-    justifyContent: 'center',
-    paddingTop: '20px'
+    display: "flex",
+    justifyContent: "center",
+    paddingTop: "20px",
   },
   table: {
     minWidth: 650,
@@ -47,36 +47,7 @@ const useStyles = (theme) => ({
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
   },
-}));
-
-const Product = (props) => (
-  <tr>
-    <td>{props.wooProduct.name}</td>
-    <td>{props.wooProduct.sku}</td>
-    <td>{props.product.supplier}</td>
-    <td>{props.wooProduct.price}</td>
-    <td>{props.wooProduct.sale_price}</td>
-    <td>{props.product.currentStock}</td>
-    <td>{props.product.onOrder}</td>
-    <td>{props.product.royalty}</td>
-    <td>{props.product.wooID}</td>
-    <td>{props.product.salePrice}</td>
-    <td>
-      <Link to={"/edit/" + props.wooProduct.id}>edit </Link>
-      <a
-        href="#"
-        onClick={refreshPage}
-        onClick={() => {
-          {
-            props.deleteProduct(props.wooProduct.id);
-          }
-        }}
-      >
-        delete{" "}
-      </a>
-    </td>
-  </tr>
-);
+});
 
 class Inventory extends Component {
   constructor(props) {
@@ -198,15 +169,14 @@ class Inventory extends Component {
               ))}
             </TableBody>
           </Table>
-          
         </TableContainer>
         {this.state.products.length == 0 && this.state.loading == true ? (
-            <div className={classes.spinnerRoot}>
-              <CircularProgress />
-            </div>
-          ) : (
-            <div />
-          )}
+          <div className={classes.spinnerRoot}>
+            <CircularProgress />
+          </div>
+        ) : (
+          <div />
+        )}
         <Modal
           aria-labelledby="transition-modal-title"
           aria-describedby="transition-modal-description"
