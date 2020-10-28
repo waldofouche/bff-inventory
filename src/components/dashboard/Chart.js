@@ -49,14 +49,29 @@ class Chart extends Component {
   render() {
     let forGraphResults = [];
     this.state.orders.forEach((order) => {
-      forGraphResults.push([
-        order.date.split("-", 2)[1] + "/" + order.date.split("-", 2)[0],
-        order.salePrice,
-      ]);
+      forGraphResults.push({
+        date: order.date.split("-", 2)[1] + "/" + order.date.split("-", 2)[0],
+        sales: order.salePrice
+      });
     });
-    console.log(forGraphResults);
 
-    let sumOfEachMonth = [];
+    let sumOfEachMonth = Object.create(null);
+    forGraphResults.forEach((value) => {
+      sumOfEachMonth[value.date] = sumOfEachMonth[value.date] || [];
+      sumOfEachMonth[value.date].push(value);
+    })
+
+    let graphData = [];
+    for (let [key, value] of Object.entries(sumOfEachMonth)){
+      let sum = 0;
+      value.forEach((innerEntry) => {
+        sum = sum + parseFloat(innerEntry.sales);
+      })
+      graphData.push({month: key, amount: sum})
+    }
+    //let values =  sumOfEachMonth.reduce((a, b) => [a.sales + b.sales]);
+
+    console.log("final", graphData);
 
     // for(let i = 0; i<)
 
@@ -73,7 +88,8 @@ class Chart extends Component {
     //   }
     // }
     //have 0,0 axis
-    sumOfEachMonth.push(createData(0, 0));
+    let dataStuff = [];
+    dataStuff.push(createData(0, 0));
     // let updatedOrders = this.state.orderList.filter((order) =>
     // order.date.watever > lowerbound && order.date.whatever < upperbound)
 
@@ -83,7 +99,7 @@ class Chart extends Component {
 
         <ResponsiveContainer>
           <LineChart
-            data={sumOfEachMonth.reverse()}
+            data={dataStuff.reverse()}
             margin={{
               top: 16,
               right: 16,
