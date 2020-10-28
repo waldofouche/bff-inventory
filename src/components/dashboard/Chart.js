@@ -57,6 +57,10 @@ class Chart extends Component {
       );
     });
 
+    let sumOfEachMonth = forGraphResults.reduce(function (a, b) {
+      return a + b;
+    });
+
     //have 0,0 axis
     forGraphResults.push(createData(0, 0));
     // let updatedOrders = this.state.orderList.filter((order) =>
