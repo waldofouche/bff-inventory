@@ -13,9 +13,6 @@ import Axios from "axios";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
 // Generate Sales Data
-function createData(month, amount) {
-  return { month, amount };
-}
 
 const useStyles = () => ({
   spinnerRoot: {
