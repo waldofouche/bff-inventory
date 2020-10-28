@@ -33,7 +33,7 @@ class Chart extends Component {
   componentDidMount() {
     let results = [];
     this.setState({ loading: true });
-    Axios.get(API_URL + "/wooCommerce/orders")
+    Axios.get(process.env.API_URL + "/wooCommerce/orders")
       .then((response) => {
         response.data.forEach((order, index) => {
           results.push({
