@@ -44,12 +44,6 @@ export const mainListItems = (
       </ListItemIcon>
       <ListItemText primary="Inventory" />
     </ListItem>
-    <ListItem button>
-      <ListItemIcon>
-        <BarChartIcon/>
-      </ListItemIcon>
-      <ListItemText primary="Reports" />
-    </ListItem>
   </div>
 );
 

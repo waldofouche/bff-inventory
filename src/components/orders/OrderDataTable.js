@@ -21,7 +21,7 @@ function refreshPage() {
   window.location.reload(true);
 }
 
-const useStyles = makeStyles({
+const useStyles = (theme) => ({
   root: {
     flexGrow: 1,
     marginBottom: 20,

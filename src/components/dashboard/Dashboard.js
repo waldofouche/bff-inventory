@@ -35,6 +35,8 @@ import { Link } from "react-router-dom";
 import UserContext from "../context/UserContext";
 import { useHistory } from "react-router-dom";
 import Axios from "axios";
+import { useCookies } from "react-cookie";
+import EmojiObjectsIcon from "@material-ui/icons/EmojiObjects";
 
 const drawerWidth = 240;
 
@@ -122,6 +124,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Dashboard() {
+  const [cookies, setCookie] = useCookies(["themeShade"]);
   const { setUserData } = useContext(UserContext);
   const history = useHistory();
   const classes = useStyles();
@@ -170,6 +173,14 @@ export default function Dashboard() {
     });
     localStorage.removeItem("x-auth-token");
   };
+
+  const handleThemeChange = () => {
+    if (cookies.themeShade == 'light'){
+        setCookie('themeShade', 'dark', { path: '/'});
+    } else if (cookies.themeShade == 'dark'){
+      setCookie('themeShade', 'light', { path: '/'});
+    }
+  }
 
   /* Checks if a user has previously logged in on the device
      and if the credentials are valid 
@@ -265,6 +276,9 @@ export default function Dashboard() {
           >
             BFF Dashboard
           </Typography>
+          <IconButton color="inherit" onClick={handleThemeChange}>
+            <EmojiObjectsIcon />
+          </IconButton>
           <IconButton
             color="inherit"
             ref={anchorRef}

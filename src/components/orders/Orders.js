@@ -35,6 +35,8 @@ import UserContext from "../context/UserContext";
 import { useHistory } from "react-router-dom";
 import Axios from "axios";
 import {useEffect, useContext} from 'react';
+import { useCookies } from "react-cookie";
+import EmojiObjectsIcon from "@material-ui/icons/EmojiObjects";
 
 const drawerWidth = 240;
 
@@ -122,6 +124,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Orders() {
+  const [cookies, setCookie] = useCookies(["themeShade"]);
   const history = useHistory();
   const { setUserData } = useContext(UserContext);
   const classes = useStyles();
@@ -151,6 +154,14 @@ export default function Orders() {
     if (event.key === "Tab") {
       event.preventDefault();
       setProfileOpen(false);
+    }
+  }
+
+  const handleThemeChange = () => {
+    if (cookies.themeShade == 'light'){
+        setCookie('themeShade', 'dark', { path: '/'});
+    } else if (cookies.themeShade == 'dark'){
+      setCookie('themeShade', 'light', { path: '/'});
     }
   }
 
@@ -257,6 +268,9 @@ export default function Orders() {
           >
             BFF Dashboard
           </Typography>
+          <IconButton color="inherit" onClick={handleThemeChange}>
+            <EmojiObjectsIcon />
+          </IconButton>
           <IconButton
             color="inherit"
             ref={anchorRef}

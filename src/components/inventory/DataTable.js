@@ -172,7 +172,7 @@ class Inventory extends Component {
   };
 
   render() {
-    console.log(this.state.products)
+    
     const { classes } = this.props;
     return (
       <>
