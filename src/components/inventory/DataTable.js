@@ -69,12 +69,12 @@ class Inventory extends Component {
 
   componentDidMount() {
     this.setState({ loading: true });
-    Axios.get("http://localhost:5000/products")
+    Axios.get(API_URL + "/products")
       .then((response) => {
         return response.data;
       })
       .then((products) => {
-        Axios.get("http://localhost:5000/wooCommerce/products")
+        Axios.get(API_URL + "/wooCommerce/products")
           .then((response) => {
             let mergedProducts = products.map((product) => {
               return {
@@ -137,7 +137,7 @@ class Inventory extends Component {
     updatedProduct.wooID = Number(currentProduct.invWooID);
 
     Axios.post(
-      "http://localhost:5000/products/update/" + currentProduct._id.toString(),
+      API_URL + "/products/update/" + currentProduct._id.toString(),
       updatedProduct,
       { headers: { "Content-Type": "application/json" } }
     )

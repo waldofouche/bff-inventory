@@ -17,7 +17,7 @@ class DisplayLowStockItems extends Component {
   }
   componentDidMount() {
     // Your code here
-    Axios.get("http://localhost:5000/products")
+    Axios.get(API_URL + "/products")
       .then((response) => {
         this.setState({ products: response.data });
       })
