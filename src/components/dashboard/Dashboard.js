@@ -1,26 +1,21 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Drawer from "@material-ui/core/Drawer";
-import Box from "@material-ui/core/Box";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import List from "@material-ui/core/List";
 import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
-import Badge from "@material-ui/core/Badge";
 import Container from "@material-ui/core/Container";
 import Grid from "@material-ui/core/Grid";
 import Paper from "@material-ui/core/Paper";
-// import Link from '@material-ui/core/Link';
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import LockOpenIcon from "@material-ui/icons/LockOpen";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import { mainListItems } from "../dashboard/listItems";
-import Button from "@material-ui/core/Button";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import Grow from "@material-ui/core/Grow";
 import Popper from "@material-ui/core/Popper";
@@ -117,10 +112,6 @@ const useStyles = makeStyles((theme) => ({
   fixedHeight: {
     height: 240,
   },
-  mainList: {
-    // backgroundColor: "#2C363B",
-    // color: "#D6D7D8",
-  },
 }));
 
 export default function Dashboard() {
@@ -166,21 +157,22 @@ export default function Dashboard() {
   }
 
   //Remove token when log out
-  const logout = () => {
+  const logout = (event) => {
     setUserData({
       token: undefined,
       user: undefined,
     });
     localStorage.removeItem("x-auth-token");
+    setProfileOpen(false);
   };
 
   const handleThemeChange = () => {
-    if (cookies.themeShade == 'light'){
-        setCookie('themeShade', 'dark', { path: '/'});
-    } else if (cookies.themeShade == 'dark'){
-      setCookie('themeShade', 'light', { path: '/'});
+    if (cookies.themeShade === "light") {
+      setCookie("themeShade", "dark", { path: "/" });
+    } else if (cookies.themeShade === "dark") {
+      setCookie("themeShade", "light", { path: "/" });
     }
-  }
+  };
 
   /* Checks if a user has previously logged in on the device
      and if the credentials are valid 
@@ -190,52 +182,50 @@ export default function Dashboard() {
   useEffect(() => {
     // Check if a user login token exists on the current device
     const checkLoggedIn = async () => {
-      let token = localStorage.getItem("x-auth-token","");
-      let login
-    
-      Axios.post(
-        "http://192.168.1.194:5000/users/tokenIsValid",
-        null,
-        { headers: { "x-auth-token": token } }
-      )
-      .then(res=>{
-        if (res == true){
-            login= true;
-        }
-        if (res == false){
-          // Invalid User -> reroutes to login
-          login= false;
-          //history.push("/");
-        }
-      })
-      .catch(err => {
-        if (err.response) {
-          // client received an error response (5xx, 4xx)
-          login= false;
-          //history.push("/");
-        } else if (err.request) {
-          // client never received a response, or request never left
-          login= false;
-          //history.push("/");
-        } else {
-          // anything else
-          login= false;
-         // history.push("/");
-        }
-    })
+      let token = localStorage.getItem("x-auth-token", "");
+      let login;
 
-    if (login == true) {
-      const userRes = await Axios.get("http://192.168.1.194:5000/users/", {
-              headers: { "x-auth-token": token },
-            });
-            setUserData({
-              token,
-              user: userRes.data,
-            });
-    }
-    }
+      Axios.post("http://localhost:5000/users/tokenIsValid", null, {
+        headers: { "x-auth-token": token },
+      })
+        .then((res) => {
+          if (res === true) {
+            login = true;
+          }
+          if (res === false) {
+            // Invalid User -> reroutes to login
+            login = false;
+            history.push("/");
+          }
+        })
+        .catch((err) => {
+          if (err.response) {
+            // client received an error response (5xx, 4xx)
+            login = false;
+            history.push("/");
+          } else if (err.request) {
+            // client never received a response, or request never left
+            login = false;
+            history.push("/");
+          } else {
+            // anything else
+            login = false;
+            history.push("/");
+          }
+        });
+
+      if (login === true) {
+        const userRes = await Axios.get("http://localhost:5000/users/", {
+          headers: { "x-auth-token": token },
+        });
+        setUserData({
+          token,
+          user: userRes.data,
+        });
+      }
+    };
     checkLoggedIn();
-  }, []);
+  });
 
   // return focus to the button when we transitioned from !open -> open
   const prevOpen = React.useRef(profileOpen);
@@ -311,8 +301,8 @@ export default function Dashboard() {
                       >
                         {/*add clear login token */}
                         <MenuItem
-                          onClick={handleProfileClose}
                           onClick={logout}
+                          // onClick={logout}
                           component={Link}
                           to="/"
                         >
