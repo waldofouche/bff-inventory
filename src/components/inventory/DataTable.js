@@ -17,18 +17,21 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 
 //modal Imports
-import Modal from '@material-ui/core/Modal';
-import Backdrop from '@material-ui/core/Backdrop';
-import Fade from '@material-ui/core/Fade';
+import Modal from "@material-ui/core/Modal";
+import Backdrop from "@material-ui/core/Backdrop";
+import Fade from "@material-ui/core/Fade";
 
-function refreshPage() {
-  window.location.reload(true);
-}
+import CircularProgress from "@material-ui/core/CircularProgress";
 
-const useStyles = makeStyles((theme) =>({
+const useStyles = (theme) => ({
   root: {
     flexGrow: 1,
     marginBottom: 20,
+  },
+  spinnerRoot: {
+    display: 'flex',
+    justifyContent: 'center',
+    paddingTop: '20px'
   },
   table: {
     minWidth: 650,
@@ -40,7 +43,7 @@ const useStyles = makeStyles((theme) =>({
   },
   paper: {
     backgroundColor: theme.palette.background.paper,
-    border: '2px solid #000',
+    border: "2px solid #000",
     boxShadow: theme.shadows[5],
     padding: theme.spacing(2, 4, 3),
   },
@@ -79,13 +82,20 @@ class Inventory extends Component {
   constructor(props) {
     super(props);
 
-    this.handleModalOpen = this.handleModalOpen.bind(this);
     this.handleModalClose = this.handleModalClose.bind(this);
-    this.deleteProduct = this.deleteProduct.bind(this);
-    this.state = { products: [], tabValue: 0, setValue: 0 };
+    //this.deleteProduct = this.deleteProduct.bind(this);
+    this.state = {
+      products: [],
+      tabValue: 0,
+      setValue: 0,
+      modalOpen: false,
+      currentProduct: [],
+      loading: false,
+    };
   }
 
   componentDidMount() {
+    this.setState({ loading: true });
     Axios.get("http://localhost:5000/products")
       .then((response) => {
         return response.data;
@@ -101,7 +111,7 @@ class Inventory extends Component {
                 }),
               };
             });
-            console.log("merged", mergedProducts)
+            console.log("merged", mergedProducts);
             this.setState({ products: mergedProducts });
           })
           .catch((error) => {
@@ -113,7 +123,7 @@ class Inventory extends Component {
       });
   }
 
-  deleteProduct(id) {
+  /* deleteProduct(id) {
     Axios.delete("http://localhost:5000/products/" + id).then((res) => {
       console.log(res.data);
     });
@@ -121,30 +131,15 @@ class Inventory extends Component {
     this.setState({
       products: this.state.products.filter((el) => el.id !== id),
     });
-  }
+  } */
 
-  
-  handleModalOpen = () => {
-    this.setState({ modalOpen: true });
+  handleModalOpen = (product) => {
+    this.setState({ modalOpen: true, currentProduct: product });
   };
 
   handleModalClose = () => {
     this.setState({ modalOpen: false });
   };
-
-
-  productsList() {
-    return this.state.products.map((currentproduct, index) => {
-      return (
-        <Product
-          product={currentproduct}
-          wooProduct={this.state.wooProducts[index]}
-          deleteProduct={this.deleteProduct}
-          key={currentproduct._id}
-        />
-      );
-    });
-  }
 
   handleTabChange = (event, newValue) => {
     this.setState({ tabValue: newValue });
@@ -152,8 +147,6 @@ class Inventory extends Component {
 
   render() {
     const { classes } = this.props;
-    console.log("Products", this.state.products);
-    console.log("Woo Products", this.state.wooProducts);
     // this.state.products.map((product) => (console.log("SKU", product.invSKU)))
     // console.log("SKU", this.state.products.invSKU);
     return (
@@ -177,7 +170,7 @@ class Inventory extends Component {
             <TableHead>
               <TableRow>
                 <TableCell>Product Name</TableCell>
-                <TableCell align="left">SKU</TableCell>
+                <TableCell align="right">SKU</TableCell>
                 <TableCell align="right">Price</TableCell>
                 <TableCell align="right">Sale Price</TableCell>
                 <TableCell align="right">Stock on Hand</TableCell>
@@ -187,11 +180,15 @@ class Inventory extends Component {
             </TableHead>
             <TableBody>
               {this.state.products.map((product) => (
-                <TableRow key={product.id} onClick = {this.handleModalOpen} hover>
+                <TableRow
+                  key={product.invWooID}
+                  onClick={this.handleModalOpen.bind(this, product)}
+                  hover
+                >
                   <TableCell component="th" scope="row">
                     {product.invProductName}
                   </TableCell>
-                  <TableCell align="left">{product.slug}</TableCell>
+                  <TableCell align="right">{product.invSKU}</TableCell>
                   <TableCell align="right">{product.invPrice}</TableCell>
                   <TableCell align="right">{product.invSalePrice}</TableCell>
                   <TableCell align="right">{product.invCurrentStock}</TableCell>
@@ -201,30 +198,36 @@ class Inventory extends Component {
               ))}
             </TableBody>
           </Table>
+          
         </TableContainer>
+        {this.state.products.length == 0 && this.state.loading == true ? (
+            <div className={classes.spinnerRoot}>
+              <CircularProgress />
+            </div>
+          ) : (
+            <div />
+          )}
         <Modal
-        aria-labelledby="transition-modal-title"
-        aria-describedby="transition-modal-description"
-        className={classes.modal}
-        open={this.state.modalOpen}
-        onClose={this.handleModalClose}
-        closeAfterTransition
-        BackdropComponent={Backdrop}
-        BackdropProps={{
-          timeout: 500,
-        }}
-      >
-        <Fade in={this.state.modalOpen}>
-          <div className={classes.paper}>
-            <h2 id="transition-modal-title">Transition modal</h2>
-            <p id="transition-modal-description">react-transition-group animates me.</p>
-          </div>
-        </Fade>
-      </Modal>
+          aria-labelledby="transition-modal-title"
+          aria-describedby="transition-modal-description"
+          className={classes.modal}
+          open={this.state.modalOpen}
+          onClose={this.handleModalClose}
+          closeAfterTransition
+          BackdropComponent={Backdrop}
+          BackdropProps={{
+            timeout: 500,
+          }}
+        >
+          <Fade in={this.state.modalOpen}>
+            <div className={classes.paper}>
+              <h2>{this.state.currentProduct.invProductName}</h2>
+              <p>Stock on Hand: {this.state.currentProduct.invCurentStock}</p>
+            </div>
+          </Fade>
+        </Modal>
       </>
-         
     );
-    
   }
 }
 
