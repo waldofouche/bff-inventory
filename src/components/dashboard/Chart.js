@@ -10,6 +10,7 @@ import {
 } from "recharts";
 import Title from "./Title";
 import Axios from "axios";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 // Generate Sales Data
 function createData(month, amount) {
@@ -70,14 +71,15 @@ class Chart extends Component {
       );
     });
 
-    console.log(forGraphResults);
-
+    //have 0,0 axis
+    forGraphResults.push(createData(0, 0));
     // let updatedOrders = this.state.orderList.filter((order) =>
     // order.date.watever > lowerbound && order.date.whatever < upperbound)
 
     return (
       <React.Fragment>
         <Title>{new Date().getFullYear()}</Title>
+
         <ResponsiveContainer>
           <LineChart
             data={forGraphResults.reverse()}
@@ -103,6 +105,13 @@ class Chart extends Component {
             <Line type="monotone" dataKey="amount" dot={false} />
           </LineChart>
         </ResponsiveContainer>
+        <CircularProgress
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            paddingTop: "20px",
+          }}
+        />
       </React.Fragment>
     );
   }
