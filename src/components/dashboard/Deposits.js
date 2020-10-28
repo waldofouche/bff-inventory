@@ -36,7 +36,6 @@ month[11] = "December";
 
 const n = month[d.getMonth()];
 
-console.log(d.getMonth());
 class Deposits extends Component {
   constructor(props) {
     super(props);
@@ -49,7 +48,6 @@ class Deposits extends Component {
     this.setState({ loading: true });
     Axios.get("http://localhost:5000/wooCommerce/orders")
       .then((response) => {
-        console.log(response.data);
         response.data.forEach((order, index) => {
           results.push({
             id: order.id,
@@ -59,7 +57,6 @@ class Deposits extends Component {
           });
         });
         this.setState({ orders: results, loading: false });
-        // console.log(results);
       })
       .catch((error) => {
         console.log(error);

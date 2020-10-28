@@ -18,17 +18,6 @@ function createData(month, amount) {
 }
 
 const useStyles = (theme) => ({});
-const data = [
-  createData("01/20", 0),
-  createData("02/20", 300),
-  createData("03/20", 600),
-  createData("04/20", 800),
-  createData("05/20", 1500),
-  createData("06/20", 2000),
-  createData("07/20", 1000),
-  createData("08/20", 2500),
-  createData("09/20", undefined),
-];
 
 class Chart extends Component {
   constructor(props) {
@@ -43,7 +32,6 @@ class Chart extends Component {
     this.setState({ loading: true });
     Axios.get("http://localhost:5000/wooCommerce/orders")
       .then((response) => {
-        console.log(response.data);
         response.data.forEach((order, index) => {
           results.push({
             id: order.id,
@@ -53,7 +41,6 @@ class Chart extends Component {
           });
         });
         this.setState({ orders: results, loading: false });
-        // console.log(results);
       })
       .catch((error) => {
         console.log(error);

@@ -41,8 +41,6 @@ class DisplayOutOfStockItems extends Component {
       (el) => el.invCurrentStock == 0
     );
 
-    console.log(this.state.products);
-
     const { classes } = this.props;
     let numberOfLowStock = 0;
     if (updatedOutOfStock) {
