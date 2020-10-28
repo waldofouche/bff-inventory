@@ -131,32 +131,41 @@ class Inventory extends Component {
     updatedProduct.productName = e.target[0].value;
     updatedProduct.SKU = e.target[1].value;
     updatedProduct.currentStock = Number(e.target[2].value);
+    updatedProduct.supplier = currentProduct.invSupplier;
     updatedProduct.onOrder = Number(e.target[3].value);
     updatedProduct.price = Number(e.target[4].value);
     updatedProduct.salePrice = Number(e.target[5].value);
     updatedProduct.royalty = Number(e.target[6].value);
-    updatedProduct.wooID = currentProduct.invWooID;
+    updatedProduct.wooID = Number(currentProduct.invWooID);
 
-    console.log("product", updatedProduct);
 
-  Axios.post("http://localhost:5000/products/update/" + currentProduct._id, updatedProduct)
-  .then((response) => {
-    console.log("response", response)
-  })
-  .catch((err) => {
-    console.log(err)
-  })
+    Axios.post("http://localhost:5000/products/update/" + currentProduct._id.toString(), updatedProduct, {headers:{'Content-Type': 'application/json'}})
+      .then((response) => {
+        console.log("response", response);
+      })
+      .catch((err) => {
+        console.log(err.response);
+      });
 
-    this.setState({ editing: false, currentProduct: currentProduct });
+      let product = {}
+      product.invProductName = updatedProduct.productName
+      product.invSKU = updatedProduct.SKU
+      product.invCurrentStock = updatedProduct.currentStock
+      product.invSupplier = updatedProduct.supplier
+      product.invOnOrder = updatedProduct.onOrder
+      product.invPrice =  updatedProduct.price
+      product.invSalePrice = updatedProduct.salePrice
+      product.invRoyalty = updatedProduct.royalty
+      product.invWooID = updatedProduct.wooID
+
+    this.setState({ editing: false, currentProduct: {...currentProduct, ...product}});
 
     e.preventDefault();
   };
 
   render() {
-    console.log("editing", this.state.editing);
+    console.log(this.state.products)
     const { classes } = this.props;
-    // this.state.products.map((product) => (console.log("SKU", product.invSKU)))
-    // console.log("SKU", this.state.products.invSKU);
     return (
       <>
         <Paper className={classes.root}>
@@ -289,12 +298,7 @@ class Inventory extends Component {
                   </div>
                   <br />
                   <div>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      type="submit"
-
-                    >
+                    <Button variant="contained" color="primary" type="submit">
                       Confirm
                     </Button>
                   </div>
