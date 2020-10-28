@@ -52,7 +52,6 @@ class Chart extends Component {
           });
         });
         this.setState({ orders: results, loading: false });
-        module.exports(results);
         // console.log(results);
       })
       .catch((error) => {
@@ -63,10 +62,12 @@ class Chart extends Component {
     const { theme } = this.props;
     let forGraphResults = [];
     this.state.orders.forEach((order, index) => {
-      forGraphResults.push({
-        date: order.date.split("-", 2)[1] + "/" + order.date.split("-", 2)[0],
-        saltPrice: order.salePrice,
-      });
+      forGraphResults.push(
+        createData(
+          order.date.split("-", 2)[1] + "/" + order.date.split("-", 2)[0],
+          order.salePrice
+        )
+      );
     });
 
     console.log(forGraphResults);
@@ -79,7 +80,7 @@ class Chart extends Component {
         <Title>{new Date().getFullYear()}</Title>
         <ResponsiveContainer>
           <LineChart
-            data={data}
+            data={forGraphResults.reverse()}
             margin={{
               top: 16,
               right: 16,
