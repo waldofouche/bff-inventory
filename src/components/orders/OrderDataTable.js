@@ -74,19 +74,6 @@ class Order extends Component {
     // console.log("SKU", this.state.products.invSKU);
     return (
       <>
-        <Paper className={classes.root}>
-          <Tabs
-            value={this.state.tabValue}
-            indicatorColor="primary"
-            textColor="primary"
-            centered
-          >
-            <Tab label="All Items" />
-            <Tab label="In Stock" />
-            <Tab label="Low Stock" />
-            <Tab label="Out of Stock" />
-          </Tabs>
-        </Paper>
         <TableContainer component={Paper}>
           <Table className={classes.table} aria-label="simple table">
             <TableHead>
