@@ -110,7 +110,7 @@ export default function SignIn() {
       }
     };
     checkLoggedIn();
-  });
+  }, []);
 
   // Sign in user when clicked
   const submit = async (e) => {
