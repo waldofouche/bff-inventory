@@ -17,7 +17,13 @@ function createData(month, amount) {
   return { month, amount };
 }
 
-const useStyles = () => ({});
+const useStyles = () => ({
+  spinnerRoot: {
+    display: "flex",
+    justifyContent: "center",
+    paddingTop: "20px",
+  },
+});
 
 class Chart extends Component {
   constructor(props) {
@@ -47,11 +53,12 @@ class Chart extends Component {
       });
   }
   render() {
+    const { classes } = this.props;
     let forGraphResults = [];
     this.state.orders.forEach((order) => {
       forGraphResults.push({
         date: order.date.split("-", 2)[1] + "/" + order.date.split("-", 2)[0],
-        sales: order.salePrice
+        sales: order.salePrice,
       });
     });
 
@@ -59,77 +66,58 @@ class Chart extends Component {
     forGraphResults.forEach((value) => {
       sumOfEachMonth[value.date] = sumOfEachMonth[value.date] || [];
       sumOfEachMonth[value.date].push(value);
-    })
+    });
 
     let graphData = [];
-    for (let [key, value] of Object.entries(sumOfEachMonth)){
+    for (let [key, value] of Object.entries(sumOfEachMonth)) {
       let sum = 0;
       value.forEach((innerEntry) => {
         sum = sum + parseFloat(innerEntry.sales);
-      })
-      graphData.push({month: key, amount: sum})
+      });
+      graphData.push({ month: key, amount: sum });
     }
     //let values =  sumOfEachMonth.reduce((a, b) => [a.sales + b.sales]);
 
     console.log("final", graphData);
 
-    // for(let i = 0; i<)
-
-    // for (let i = 0; i < forGraphResults.length; i++) {
-    //   for (let j = 0; j < forGraphResults[i].length - 1; j++) {
-    //     if (forGraphResults[i][j] === forGraphResults[i + 1][j + 1]) {
-    //       sumOfEachMonth.push(
-    //         createData(
-    //           forGraphResults[i],
-    //           forGraphResults[i][j + 1] + forGraphResults[i + 1][j + 1]
-    //         )
-    //       );
-    //     }
-    //   }
-    // }
-    //have 0,0 axis
-    let dataStuff = [];
-    dataStuff.push(createData(0, 0));
-    // let updatedOrders = this.state.orderList.filter((order) =>
-    // order.date.watever > lowerbound && order.date.whatever < upperbound)
-
     return (
-      <React.Fragment>
-        <Title>{new Date().getFullYear()}</Title>
-
-        <ResponsiveContainer>
-          <LineChart
-            data={dataStuff.reverse()}
-            margin={{
-              top: 16,
-              right: 16,
-              bottom: 0,
-              left: 24,
-            }}
-          >
-            <XAxis dataKey="month" />
-            <YAxis>
-              <Label
-                angle={270}
-                position="left"
-                style={{
-                  textAnchor: "middle",
-                }}
-              >
-                Sales ($)
-              </Label>
-            </YAxis>
-            <Line type="monotone" dataKey="amount" dot={false} />
-          </LineChart>
-        </ResponsiveContainer>
-        <CircularProgress
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            paddingTop: "20px",
-          }}
-        />
-      </React.Fragment>
+      <>
+        {this.state.orders.length === 0 && this.state.loading === true ? (
+          <div className={classes.spinnerRoot}>
+            <CircularProgress />
+          </div>
+        ) : (
+          <div />
+        )}
+        <React.Fragment>
+          <Title>{new Date().getFullYear()}</Title>
+          <ResponsiveContainer>
+            <LineChart
+              data={graphData.reverse()}
+              margin={{
+                top: 16,
+                right: 16,
+                bottom: 0,
+                left: 24,
+              }}
+            >
+              <XAxis dataKey="month" />
+              <YAxis>
+                <Label
+                  angle={270}
+                  position="left"
+                  style={{
+                    textAnchor: "middle",
+                  }}
+                >
+                  Sales ($)
+                </Label>
+              </YAxis>
+              <Line type="monotone" dataKey="amount" dot={false} />
+            </LineChart>
+          </ResponsiveContainer>
+        </React.Fragment>
+      </>
     );
   }
 }
