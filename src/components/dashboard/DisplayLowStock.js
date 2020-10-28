@@ -59,16 +59,6 @@ class DisplayLowStockItems extends Component {
         <Typography color="textSecondary" className={classes.depositContext}>
           Unique Items
         </Typography>
-        <div>
-          <Link
-            color="primary"
-            href="/inventory"
-            component={ReactDomLink}
-            to="/inventory"
-          >
-            Go to inventory
-          </Link>
-        </div>
       </React.Fragment>
     );
   }

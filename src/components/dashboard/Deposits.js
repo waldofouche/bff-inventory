@@ -16,8 +16,8 @@ const useStyles = makeStyles({
   },
 });
 
-function createData(month, amount) {
-  return { month, amount };
+function createData(amount) {
+  return { amount };
 }
 const d = new Date();
 const month = new Array();
@@ -36,6 +36,7 @@ month[11] = "December";
 
 const n = month[d.getMonth()];
 
+console.log(d.getMonth());
 class Deposits extends Component {
   constructor(props) {
     super(props);
@@ -66,31 +67,31 @@ class Deposits extends Component {
   }
   render() {
     const { classes } = this.props;
-    let forGraphResults = [];
+    let forDepositsResults = [];
+
+    //Only take sales for completed orders for that particular month
     this.state.orders.forEach((order, index) => {
-      forGraphResults.push(
-        createData(
-          order.date.split("-", 2)[1] + "/" + order.date.split("-", 2)[0],
-          order.salePrice
-        )
-      );
+      if (order.status == "completed") {
+        //Match the month
+        if (Number(order.date.split("-", 2)[1]) == d.getMonth() + 1) {
+          forDepositsResults.push(Number(order.salePrice));
+        }
+      }
     });
 
-    console.log(forGraphResults);
+    let sumOfDeposit = forDepositsResults.reduce(function (a, b) {
+      return a + b;
+    }, 0);
+
     return (
       <React.Fragment>
         <Title>Current Month Sales</Title>
         <Typography component="p" variant="h4">
-          $9999
+          ${sumOfDeposit}
         </Typography>
         <Typography color="textSecondary" className={classes.depositContext}>
           {n} {new Date().getFullYear()}
         </Typography>
-        <div>
-          <Link color="primary" href="#" onClick={preventDefault}>
-            View balance
-          </Link>
-        </div>
       </React.Fragment>
     );
   }
