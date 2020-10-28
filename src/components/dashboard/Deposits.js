@@ -10,7 +10,7 @@ function preventDefault(event) {
   event.preventDefault();
 }
 
-const useStyles = makeStyles({
+const useStyles = (theme) => ({
   depositContext: {
     flex: 1,
   },

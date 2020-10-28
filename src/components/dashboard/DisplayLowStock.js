@@ -12,7 +12,7 @@ function preventDefault(event) {
   event.preventDefault();
 }
 
-const useStyles = makeStyles({
+const useStyles = (theme) =>({
   depositContext: {
     flex: 1,
   },
@@ -50,7 +50,7 @@ class DisplayLowStockItems extends Component {
     }
 
     return (
-      <React.Fragment>
+      <div>
         <Title alignItem="center">Low Stock </Title>
         <Typography component="p" variant="h4">
           {" "}
@@ -59,7 +59,7 @@ class DisplayLowStockItems extends Component {
         <Typography color="textSecondary" className={classes.depositContext}>
           Unique Items
         </Typography>
-      </React.Fragment>
+        </div>
     );
   }
 }

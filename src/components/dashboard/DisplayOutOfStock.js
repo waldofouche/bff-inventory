@@ -12,13 +12,13 @@ function preventDefault(event) {
   event.preventDefault();
 }
 
-const useStyles = makeStyles({
+const useStyles = (theme) => ({
   depositContext: {
     flex: 1,
   },
 });
 
-class DisplayLowStockItems extends Component {
+class DisplayOutOfStockItems extends Component {
   constructor(props) {
     super(props);
     this.state = { products: [], tabValue: 0, setValue: 0 };
@@ -64,4 +64,4 @@ class DisplayLowStockItems extends Component {
   }
 }
 
-export default withStyles(useStyles)(DisplayLowStockItems);
+export default withStyles(useStyles)(DisplayOutOfStockItems);
