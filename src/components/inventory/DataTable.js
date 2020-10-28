@@ -192,7 +192,16 @@ class Inventory extends Component {
           <Fade in={this.state.modalOpen}>
             <div className={classes.paper}>
               <h2>{this.state.currentProduct.invProductName}</h2>
+              <p>SKU: {this.state.currentProduct.invSKU}</p>
+              <br />
               <p>Stock on Hand: {this.state.currentProduct.invCurentStock}</p>
+              <p>Stock on Order: {this.state.currentProduct.invOnOrder}</p>
+              <br />
+              <p>Price: ${this.state.currentProduct.invPrice}</p>
+              <p>
+                Sale Price: ${this.state.currentProduct.invSalePrice || "-"}
+              </p>
+              <p>Artist Royalty: ${this.state.currentProduct.invRoyalty}</p>
             </div>
           </Fade>
         </Modal>
