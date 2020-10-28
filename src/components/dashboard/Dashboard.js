@@ -185,7 +185,7 @@ export default function Dashboard() {
       let token = localStorage.getItem("x-auth-token", "");
       let login;
 
-      Axios.post(API_URL + "/users/tokenIsValid", null, {
+      Axios.post(process.env.API_URL + "/users/tokenIsValid", null, {
         headers: { "x-auth-token": token },
       })
         .then((res) => {
@@ -215,7 +215,7 @@ export default function Dashboard() {
         });
 
       if (login === true) {
-        const userRes = await Axios.get(API_URL + "/users/", {
+        const userRes = await Axios.get(process.env.API_URL + "/users/", {
           headers: { "x-auth-token": token },
         });
         setUserData({

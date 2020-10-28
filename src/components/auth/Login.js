@@ -70,7 +70,7 @@ export default function SignIn() {
       let token = localStorage.getItem("x-auth-token", "");
       let login;
 
-      Axios.post("http://localhost:5000/users/tokenIsValid", null, {
+      Axios.post(process.env.API_URL + "users/tokenIsValid", null, {
         headers: { "x-auth-token": token },
       })
         .then((res) => {

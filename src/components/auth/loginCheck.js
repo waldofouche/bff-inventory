@@ -19,7 +19,7 @@ import {useEffect, useContext} from 'react';
       let login
     
       Axios.post(
-        "http://localhost:5000/users/tokenIsValid",
+        process.env.API_URL + "/users/tokenIsValid",
         null,
         { headers: { "x-auth-token": token } }
       )
@@ -50,7 +50,7 @@ import {useEffect, useContext} from 'react';
     })
 
     if (login == true) {
-      const userRes = await Axios.get("http://localhost:5000/users/", {
+      const userRes = await Axios.get(process.env.API_URL + "/users/", {
               headers: { "x-auth-token": token },
             });
             setUserData({
