@@ -14,8 +14,31 @@ import Inventory from "./components/inventory/Inventory"
 import SignUp from "./components/auth/SignUp"
 import Orders from "./components/orders/Orders"
 
+
+// Colors
+import { createMuiTheme } from '@material-ui/core/styles';
+import purple from '@material-ui/core/colors/purple';
+import green from '@material-ui/core/colors/green';
+import orange from '@material-ui/core/colors/deepOrange';
+import ThemeProvider from '@material-ui/core/styles/MuiThemeProvider'
+
 // Import Styling
 import "./style.css";
+import { dark } from "@material-ui/core/styles/createPalette";
+
+const theme = createMuiTheme({
+  palette: {
+    type: "light",
+    primary: {
+      main: orange[400],
+      contrastText: '#fff'
+    },
+    secondary: {
+      main: green[500],
+    },
+    
+  },
+});
 
 
 export default function App() {
@@ -28,6 +51,7 @@ export default function App() {
     <>
       <BrowserRouter>
         <UserContext.Provider value={{ userData, setUserData }}>
+          <ThemeProvider theme ={theme} >
           <div className="container">
             <Switch>
               <Route exact path="/" component={Login} />
@@ -37,6 +61,7 @@ export default function App() {
               <Route path = "/orders" component = {Orders} />
             </Switch>
           </div>
+          </ThemeProvider>
         </UserContext.Provider>
       </BrowserRouter>
     </>
