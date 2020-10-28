@@ -180,34 +180,50 @@ export default function Dashboard() {
   useEffect(() => {
     // Check if a user login token exists on the current device
     const checkLoggedIn = async () => {
-      let token = localStorage.getItem("auth-token");
-
-      // If token does not exist, create an empty one
-      if (token === null) {
-        localStorage.setItem("auth-token", "");
-        token = "";
-        history.push("/");
-      }
-
-      // Verify validity of token
-      const tokenRes = await Axios.post(
+      let token = localStorage.getItem("auth-token","");
+      let login
+    
+      Axios.post(
         "http://localhost:5000/users/tokenIsValid",
         null,
         { headers: { "x-auth-token": token } }
-      );
+      )
+      .then(res=>{
+        if (res == true){
+            login= true;
+        } 
+        if (res == false){
+          // Invalid User -> reroutes to login
+          login= false;
+          history.push("/");
+        }
+      })
+      .catch(err => {
+        if (err.response) {
+          // client received an error response (5xx, 4xx)
+          login= false;
+          history.push("/");
+        } else if (err.request) {
+          // client never received a response, or request never left
+          login= false;
+          history.push("/");
+        } else {
+          // anything else
+          login= false;
+          history.push("/");
+        }
+    })
 
-      // Sets the token to the current verified user
-      if (tokenRes.data) {
-        const userRes = await Axios.get("http://localhost:5000/users/", {
-          headers: { "x-auth-token": token },
-        });
-        setUserData({
-          token,
-          user: userRes.data,
-        });
-      }
-    };
-
+    if (login == true) {
+      const userRes = await Axios.get("http://localhost:5000/users/", {
+              headers: { "x-auth-token": token },
+            });
+            setUserData({
+              token,
+              user: userRes.data,
+            });
+    }
+    }
     checkLoggedIn();
   }, []);
 
