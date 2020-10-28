@@ -178,6 +178,7 @@ export default function Dashboard() {
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
             BFF Dashboard
           </Typography>
+          <Button color = "inherit">+ Add Product</Button>
           <IconButton color="inherit" 
           ref= {anchorRef}
           aria-controls={profileOpen ? 'menu-list-grow' : undefined} 
@@ -193,7 +194,6 @@ export default function Dashboard() {
               <Paper>
                 <ClickAwayListener onClickAway={handleProfileClose}>
                   <MenuList autoFocusItem={profileOpen} id="menu-list-grow" onKeyDown={handleProfileListKeyDown}>
-                    <MenuItem onClick={handleProfileClose}>My account</MenuItem>
                     <MenuItem onClick={handleProfileClose} component = {Link} to ="/">Logout</MenuItem>
                   </MenuList>
                 </ClickAwayListener>
@@ -214,7 +214,9 @@ export default function Dashboard() {
         <div className={clsx(classes.toolbarIcon)}>
           <IconButton onClick={handleDrawerClose}>
             <ChevronLeftIcon />
+
           </IconButton>
+          
         </div>
         <Divider />
         <List>{mainListItems}</List>

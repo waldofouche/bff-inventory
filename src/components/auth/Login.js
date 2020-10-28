@@ -174,7 +174,6 @@ export default function SignIn() {
             control={<Checkbox value="remember" color="primary" />}
             label="Remember me"
           />
-          <Link to="/home">
           <Button
             type="submit"
             fullWidth
@@ -182,11 +181,9 @@ export default function SignIn() {
             color="primary"
             className={classes.submit}
             onClick = {submit}
-            
           >
             Sign In
           </Button>
-          </Link>
           <Snackbar open = {open} autoHideDuration = {30000} onClose = {handleSnackClose}>
             <Alert onClose = {handleSnackClose} severity = "error">
               Incorrect email or password

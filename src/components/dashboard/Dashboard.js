@@ -260,7 +260,6 @@ export default function Dashboard() {
               <Paper>
                 <ClickAwayListener onClickAway={handleProfileClose}>
                   <MenuList autoFocusItem={profileOpen} id="menu-list-grow" onKeyDown={handleProfileListKeyDown}>
-                    <MenuItem onClick={handleProfileClose}>My account</MenuItem>
                     {/*add clear login token */}
                     <MenuItem onClick={handleProfileClose} onClick={logout} component = {Link} to ="/" >Logout</MenuItem>
                   </MenuList>
