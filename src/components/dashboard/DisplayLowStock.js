@@ -40,9 +40,7 @@ class DisplayLowStockItems extends Component {
     let updatedLowStock = this.state.products.filter(
       (el) => el.invCurrentStock < 5
     );
-
-    console.log(this.state.products);
-
+    
     const { classes } = this.props;
     let numberOfLowStock = 0;
     if (updatedLowStock) {

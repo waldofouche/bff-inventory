@@ -42,7 +42,6 @@ class Chart extends Component {
     this.setState({ loading: true });
     Axios.get("http://localhost:5000/wooCommerce/orders")
       .then((response) => {
-        console.log(response.data);
         response.data.forEach((order, index) => {
           results.push({
             id: order.id,
@@ -52,7 +51,6 @@ class Chart extends Component {
           });
         });
         this.setState({ orders: results, loading: false });
-        // console.log(results);
       })
       .catch((error) => {
         console.log(error);
@@ -70,7 +68,6 @@ class Chart extends Component {
       );
     });
 
-    console.log(forGraphResults);
 
     // let updatedOrders = this.state.orderList.filter((order) =>
     // order.date.watever > lowerbound && order.date.whatever < upperbound)
